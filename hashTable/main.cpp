@@ -10,6 +10,10 @@
 This is the hash table project, which is yet another pesky continuance of Student List.
 Concepts of interests:
  - Hash Tables
+
+List of first names and last names (sample of 500):
+https://gist.github.com/elifiner/cc90fdd387449158829515782936a9a4
+
  Mahika Bhan, 02/01/2025
 **************************************************************************************/
 
