@@ -93,15 +93,17 @@ int main(){
 }
 
 
-void addName(vector <Student> & studentList){
+void addName(Students** &hashtable, int &size){
 
-  // no global variables in C++ 🤠
+  //all variables that contain information needed from user
   char firstName[31];
   char lastName[31];
   int id;
   float gpa;
 
-  //prompt user for the information needed to add a student to the student list"
+  Students* student = new Students();
+  
+  //prompt user for the information needed to add a student to the student hashtable
 
   cout << "Please enter the student's first name: ";
 
@@ -119,11 +121,11 @@ void addName(vector <Student> & studentList){
 
   cin >> gpa;
 
-  //add to struct
+  //push to struct
 
-  Student newPerson;
+  hashtable = add(student,hashtable, size);
 
-  //using strcpy to transfer the first name and last name char arrays into the struct
+  /*using strcpy to transfer the first name and last name char arrays into the struct
   strcpy(newPerson.firstName, firstName);
   strcpy(newPerson.lastName, lastName);
 
@@ -134,11 +136,15 @@ void addName(vector <Student> & studentList){
 
   
   //add newly created student to the studentList vector
-  studentList.push_back(newPerson);
+  studentList.push_back(newPerson);*/
 
 }
 
-void printName(vector <Student> & studentList){
+//need a func to generate here
+
+//need a func to check for collisions
+
+void printName(Students** &hashtable, int &size){
 
   // test case
   //cout << "Come back to this" << endl;
@@ -157,45 +163,36 @@ void printName(vector <Student> & studentList){
 }
 
 
-void deleteName(vector <Student> & studentList){
+void deleteName(Students** &hashtable, int &size){
 
   //to hold the id of the student to be delted
   int deleteID;
   
   //get user input about which student to delete
-  cout << "Enter the student's ID number: " << endl;
+  cout << "Enter the student's ID number that you want to delete : " << endl;
 
   cin >> deleteID;
+
+  for (int i = 0; i < size; i++){
+    if(hashtable[i] != NULL){
+      Students* current = hashtable[i];
+      Students* prev = NULL;
+
+      while (current != NULL){
+	if (current -> id == input){
+	  if (prev == NULL){
+	    hashtable[i] = current -> next;
+	  }
+	}
+      }
+    }
+  }
 
   //counter to keep track of position in the vector
   int index = 0;
 
-  //create an iterator to go through the vector called myIterator
-  vector < Student> :: iterator myIterator;
-
-
   //find the student with the given ID
-  for(myIterator = studentList.begin(); myIterator != studentList.end(); myIterator++){
-    index = index + 1; //increment for each student in the list
-
-    //check if the current student's ID matches the ID to delete
-
-    // '->' is used to access id from Student, essentially like a pointer
-    if(myIterator ->id == deleteID){
-
-      int value = index - 1;
-
-      //erase the student from the vector if a match is found
-
-      studentList.erase(studentList.begin() + value);
-
-      //exit the loop after deleted the statement
-      break;
-      
-    }else { //otherwise continue as usual
-      ;
-    }
-  }
+  
   //for easse of use, notify the user that student has been deleted
   cout << "The student has been deleted from the system." << endl;
 }
