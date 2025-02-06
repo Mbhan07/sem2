@@ -68,13 +68,21 @@ int main(){
 
     //check user input and call the appropiate function based on the response
     if(strcmp(input, "ADD") == 0){
+
       //call add function
+      AddName(hashtable, size);
+    // may need to generate here
+
       
     }else if(strcmp(input, "PRINT") == 0){
+
       //call print function
+      printName(hashtable, size);
       
     }else if(strcmp(input, "DELETE") == 0){
+
       //call delete function
+      deleteName(hashtable, size);
       
     }else if(strcmp(input, "QUIT") == 0){
       exit(0);
