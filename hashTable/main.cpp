@@ -33,13 +33,18 @@ struct Student {
   Student * next = NULL;
 };
 
-// function prototypes
+// this is what the function should look like....
 
 void addName(Students** &hashtable, int &size);
 
-void printName(vector <Student>& studentList);
+void generateSomething();
 
-void deleteName(vector <Student>& studentList);
+Students** add(Students * student, Students** &hashtable, int &size);
+
+void printName(Students** &hashtable, int &size);
+
+Students** deleteName(Students** &hashtable, int &size);
+
 
 
 int main(){
@@ -145,25 +150,16 @@ void addName(Students** &hashtable, int &size){
 //need a func to check for collisions
 
 void printName(Students** &hashtable, int &size){
-
-  // test case
-  //cout << "Come back to this" << endl;
-
-  //create an iterator for the vector, called myItr
-  vector < Student> :: iterator myItr;
-
-  //iterate through eachstudent in the studentList and print last name, first name, gpa, id
-  for(myItr = studentList.begin(); myItr != studentList.end(); myItr++){
-    cout << myItr->firstName << " " << myItr->lastName << " , "
-         << myItr->id << " , " << fixed << setprecision(2) << myItr->gpa << endl;
-  }  
-
-  //source for using iterators for vectors: https://www.geeksforgeeks.org/how-to-use-iterator-with-vector-in-cpp/
+  for (int i = 0; i < size; i++){
+    if(hashtable[i] != NULL){
+      cout << hashtable[i]->first_name << " " << hashtable[i]-> last_name << ", " << hashtable[i] -> id << ", " << hashtable[i] -> gpa << endl;
+    }
+  }
   
 }
 
 
-void deleteName(Students** &hashtable, int &size){
+Students** deleteName(Students** &hashtable, int &size){
 
   //to hold the id of the student to be delted
   int deleteID;
@@ -182,17 +178,20 @@ void deleteName(Students** &hashtable, int &size){
 	if (current -> id == input){
 	  if (prev == NULL){
 	    hashtable[i] = current -> next;
+	  }else {
+	    prev-> next = current->next;
 	  }
+	  return hashtable;
 	}
+	prev = current;
+	current = current->next;
       }
     }
+    else {
+      ;
+    }
   }
-
-  //counter to keep track of position in the vector
-  int index = 0;
-
-  //find the student with the given ID
-  
-  //for easse of use, notify the user that student has been deleted
-  cout << "The student has been deleted from the system." << endl;
+  return hashtable;
 }
+
+
