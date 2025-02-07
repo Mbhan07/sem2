@@ -22,7 +22,7 @@ using namespace std;
 //This project utilizes essentially the original version of Student List
 
 //struct to represent a student
-struct Student {
+struct Students {
 
   //for the sake of the assignment, we will assume that the average student's name will be 30 characters or less
   char firstName[32];
@@ -39,7 +39,7 @@ void addName(Students** &hashtable, int &size);
 
 void generateSomething();
 
-Students** add(Students * student, Students** &hashtable, int &size);
+Students** add(Student * student, Students** &hashtable, int &size);
 
 void printName(Students** &hashtable, int &size);
 
@@ -49,7 +49,7 @@ Students** deleteName(Students** &hashtable, int &size);
 
 int main(){
 
-  //this is vector: (he is not wearing pajamas)
+  //this is vector: (he is not wearing pajamas) --> i can't bear to delete this so let's commemorate my amazing sense of humor with a homage to my old despicable-me themed comments
 
   //vector <Student> studentList;
 
@@ -67,7 +67,7 @@ int main(){
 
     char input[31];
 
-    cout << "Would you like to ADD, PRINT, or DELETE a student or would you like to QUIT this portal?" << endl;
+    cout << "Would you like to ADD, GENERATE, PRINT, or DELETE a student or would you like to QUIT this portal?" << endl;
 
     cin >> input;
 
@@ -77,7 +77,8 @@ int main(){
       //call add function
       AddName(hashtable, size);
     // may need to generate here
-
+    }else if(strcmp(input, "GENERATE") == 0){
+      GenerateName(hashtable, size);
       
     }else if(strcmp(input, "PRINT") == 0){
 
@@ -146,16 +147,30 @@ void addName(Students** &hashtable, int &size){
 }
 
 //need a func to generate here
+void GenerateName(students** &hashtable, int &size){
 
+
+
+}
 //need a func to check for collisions
+Students** add(Students * student, Students** &hashtable, int &size){
+
+}
 
 void printName(Students** &hashtable, int &size){
   for (int i = 0; i < size; i++){
     if(hashtable[i] != NULL){
-      cout << hashtable[i]->first_name << " " << hashtable[i]-> last_name << ", " << hashtable[i] -> id << ", " << hashtable[i] -> gpa << endl;
+      
+      cout << hashtable[i]-> firstName << " " << hashtable[i]-> lastName << ", " << hashtable[i] -> id << ", " << hashtable[i] -> gpa << endl;
+      Students * current = hashtable[i];
+      while (current ->next != NULL){
+	current = current -> next;
+	cout << current-> firstName << " " << current->lastName << "," << current->id << "," << current->gpa << endl;
+      }
+    }else {
+      ;
     }
   }
-  
 }
 
 
