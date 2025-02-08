@@ -37,7 +37,7 @@ struct Students {
 
 void addName(Students** &hashtable, int &size);
 
-void generateSomething();
+void GenerateName(Students** &hashtable, int &size);
 
 Students** add(Student * student, Students** &hashtable, int &size);
 
@@ -146,15 +146,44 @@ void addName(Students** &hashtable, int &size){
 
 }
 
+//used fstream documentation for help here: https://www.w3schools.com/cpp/ref_fstream_fstream.asp
 //need a func to generate here
 void GenerateName(students** &hashtable, int &size){
+  cout << "How many students would you like to add" << endl;
+  int students;
 
+  cin >> students;
 
+  //iterate through the students
 
+  for (int i = 0; i <= num; i++){
+    
+  }
 }
 //need a func to check for collisions
 Students** add(Students * student, Students** &hashtable, int &size){
 
+  //get to current spot in hashtable
+  Students* current = hashtable[student->hash]
+  int collisions = 0;
+
+  //if no student in current space, add to hashtable
+  if(current == NULL){
+    hashtable[student->hash] = student;
+  }else { //otherwise,if there is already something there
+    while (current -> next != NULL){
+      current = current -> next;
+      collision++;
+      cout << "if this is printing, then a collision occurred" << endl;
+    }
+    current -> next = student;
+  }
+
+  //acount for case of three collisions by rehashing the table (lord give me the strength to get through this.........)
+
+  if (collisions == 3){
+    
+  }  
 }
 
 void printName(Students** &hashtable, int &size){
@@ -208,5 +237,3 @@ Students** deleteName(Students** &hashtable, int &size){
   }
   return hashtable;
 }
-
-
