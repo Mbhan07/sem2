@@ -157,7 +157,7 @@ void GenerateName(students** &hashtable, int &size){
   //iterate through the students
 
   for (int i = 0; i <= num; i++){
-    
+    ifstream f(
   }
 }
 //need a func to check for collisions
@@ -182,7 +182,17 @@ Students** add(Students * student, Students** &hashtable, int &size){
   //acount for case of three collisions by rehashing the table (lord give me the strength to get through this.........)
 
   if (collisions == 3){
-    
+    //new tqable
+    Students** newHashTable = new Students*[size*2]();
+    //iterate through the table
+    for (int i = 0; i < size; i++){
+      Students* currentTemporary = hashtable[i];
+
+      //ensure IDS are distributed evenly along larger table as part of resizing
+      while (currentTemporary != NULL){
+	int newHash = student -> id % (size % 20;
+      }
+    }
   }  
 }
 
