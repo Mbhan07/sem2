@@ -156,9 +156,32 @@ void GenerateName(students** &hashtable, int &size){
 
   //iterate through the students
 
-  for (int i = 0; i <= num; i++){
-    ifstream f(
+  for (int i = 0; i < students; i++){
+    ifstream first("firstNames.txt");
+
+    //there are 500 names in the firstNames.txt file, so need to generate random number betwen 0 and 500
+    int randomNum = rand()%500;
+
+    //let's assume that the average first name is 50 characters or less
+    char firstName[50];
+    for (int i = 1; i <= randomNum; i ++){
+      //break this down later from documentation (gist is copying over)
+      first.getline(firstName, sizeof(firstName));
+    }
+    first.close();
   }
+  //same as above
+  ifstream last("lastNames.txt");
+  int randomerNum = rand()% 500;
+  char lastName[50];
+  for (int i = 1; i <= randomerNum; i++){
+    last.getline(lastName, sizeof(lastName));
+  }
+  last.close();
+
+  //new student
+  
+  
 }
 //need a func to check for collisions
 Students** add(Students * student, Students** &hashtable, int &size){
