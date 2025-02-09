@@ -228,9 +228,35 @@ Students** add(Students * student, Students** &hashtable, int &size){
       //ensure IDS are distributed evenly along larger table as part of resizing
       while (currentTemporary != NULL){
 	int newHash = student -> id % (size % 2);
+	//copy student
+	Students * copyStudent = new Students();
+	copyStudent -> next = NULL;
+	strcpy(copyStudent -> firstName, currentTemporary -> firstName);
+	strcpy(copyStudent -> lastName, currentTemporary -> firstName);
+	copyStudent -> id = currentTemporary -> id;
+	copyStudent -> gpa = currentTemporary -> gpa;
+	copyStudent -> hash = newHash;
+
+	//if space in the new hash table is empty
+	if(newHashTable[newHash] == NULL){
+	  //add student
+	  newHashTable[newHash] = copyStudent;
+	}else { // if space in the new hash table is not empty
+	  Students * temp = newHashTable[newHash];
+	  while (temp -> next != NULL){
+	    temp = temp -> next;
+	  }
+	  temp -> next = copyStudent;
+	}
+	currentTemporary = currentTemporary -> next;
       }
     }
-  }  
+    //delete hashtable
+    hashtable = newHashtable
+    size *= 2;
+    collisions = 0;
+  }
+  return hashtable;
 }
 
 void printName(Students** &hashtable, int &size){
