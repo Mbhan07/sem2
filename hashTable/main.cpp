@@ -150,38 +150,52 @@ void addName(Students** &hashtable, int &size){
 //need a func to generate here
 void GenerateName(students** &hashtable, int &size){
   cout << "How many students would you like to add" << endl;
-  int students;
+  int studentNum;
 
-  cin >> students;
+  cin >> studentNum;
 
   //iterate through the students
 
-  for (int i = 0; i < students; i++){
+  for (int i = 0; i < studentNum; i++){
     ifstream first("firstNames.txt");
 
     //there are 500 names in the firstNames.txt file, so need to generate random number betwen 0 and 500
     int randomNum = rand()%500;
 
     //let's assume that the average first name is 50 characters or less
-    char firstName[50];
+    char first_Name[50];
     for (int i = 1; i <= randomNum; i ++){
       //break this down later from documentation (gist is copying over)
-      first.getline(firstName, sizeof(firstName));
+      first.getline(first_Name, sizeof(first_Name));
     }
     first.close();
-  }
+  
   //same as above
   ifstream last("lastNames.txt");
   int randomerNum = rand()% 500;
-  char lastName[50];
-  for (int i = 1; i <= randomerNum; i++){
-    last.getline(lastName, sizeof(lastName));
+  char last_Name[50];
+  for (int j = 1; j <= randomerNum; j++){
+    last.getline(last_Name, sizeof(last_Name));
   }
   last.close();
 
   //new student
+  Students* student = new Students();
+  //transfer over first name, last name, id gpa
+  strcpy(student -> firstName, first_Name);
+  cout << student -> firstName << endl;
+  strcpy(student -> lastName, last_Name);
+  cout << student -> lastName << endl;
+
+  //iud caan be randomized
+  int id = 100000 + rand()% 900000;
+  student -> id = id;
   
-  
+  //float to two decimal places
+  float gpa = (double)(rand()%41)/(10.0);
+  student -> gpa = gpa;
+  hashtable  = add(student, hashtable, size);
+  }
 }
 //need a func to check for collisions
 Students** add(Students * student, Students** &hashtable, int &size){
@@ -213,7 +227,7 @@ Students** add(Students * student, Students** &hashtable, int &size){
 
       //ensure IDS are distributed evenly along larger table as part of resizing
       while (currentTemporary != NULL){
-	int newHash = student -> id % (size % 20;
+	int newHash = student -> id % (size % 2);
       }
     }
   }  
