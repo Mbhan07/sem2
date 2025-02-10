@@ -7,14 +7,20 @@
 #include <string> // YAY, we get to use strings now!!!! I'M FREE
 
 /*************************************************************************************
-This is the hash table project, which is yet another pesky continuance of Student List.
+This is the hash table project, which is yet another pesky continuance of Student List,
+including a random student generator. In this program, you can add, generate, print or
+delete students from the hash table, as well as quit the program. The difficult part
+of this project was dealing with hash collisions, which are handeled via chaining and
+resizing the table when more than three collisions occur. In addition, I used fstream
+to read in self-generated TXT files (sourced from github). 
+
 Concepts of interests:
  - Hash Tables
 
 List of first names and last names (sample of 500):
 https://gist.github.com/elifiner/cc90fdd387449158829515782936a9a4
 
- Mahika Bhan, 02/01/2025
+ Mahika Bhan, 02/07/2025
 **************************************************************************************/
 
 using namespace std;
@@ -30,16 +36,16 @@ struct Students {
   int id;
   int hash; // this is the hash key
   float gpa;
-  Student * next = NULL;
+  Students * next = NULL;
 };
 
-// this is what the function should look like....
+//function prototypes
 
 void addName(Students** &hashtable, int &size);
 
-void GenerateName(Students** &hashtable, int &size);
+void randName(Students** &hashtable, int &size);
 
-Students** add(Student * student, Students** &hashtable, int &size);
+Students** add(Students * student, Students** &hashtable, int &size);
 
 void printName(Students** &hashtable, int &size);
 
@@ -53,11 +59,13 @@ int main(){
 
   //vector <Student> studentList;
 
-  int size = 100;
+  int size = 100; //initial size of hash table
 
   //create hashtable
-  Students** hashtable = new Students*[size];
-
+  Students** hashtable = new Students*[size]();
+  for (int i = 0; i < size; i++){
+    hashtable[i] = NULL; // initlization everything to null to avoid memory snafoos, saw this on stack overflow but i lost the link...
+  }
   //random generator
   srand(time(NULL));
   
@@ -75,10 +83,10 @@ int main(){
     if(strcmp(input, "ADD") == 0){
 
       //call add function
-      AddName(hashtable, size);
+      addName(hashtable, size);
     // may need to generate here
     }else if(strcmp(input, "GENERATE") == 0){
-      GenerateName(hashtable, size);
+      randName(hashtable, size);
       
     }else if(strcmp(input, "PRINT") == 0){
 
@@ -98,7 +106,7 @@ int main(){
   return 0;
 }
 
-
+//this method allows us to manually add a student
 void addName(Students** &hashtable, int &size){
 
   //all variables that contain information needed from user
@@ -127,8 +135,14 @@ void addName(Students** &hashtable, int &size){
 
   cin >> gpa;
 
-  //push to struct
+  //copy data into struct
 
+  strcpy(student -> firstName, firstName);
+  strcpy(student -> lastName, lastName);
+  student -> id = id;
+  student -> gpa = gpa;
+  
+  //add student into hash table
   hashtable = add(student,hashtable, size);
 
   /*using strcpy to transfer the first name and last name char arrays into the struct
@@ -147,15 +161,14 @@ void addName(Students** &hashtable, int &size){
 }
 
 //used fstream documentation for help here: https://www.w3schools.com/cpp/ref_fstream_fstream.asp
-//need a func to generate here
-void GenerateName(students** &hashtable, int &size){
+//this function generates random students
+void randName(Students** &hashtable, int &size){
   cout << "How many students would you like to add" << endl;
   int studentNum;
 
   cin >> studentNum;
 
-  //iterate through the students
-
+  //iterate through the students and read first names from file
   for (int i = 0; i < studentNum; i++){
     ifstream first("firstNames.txt");
 
@@ -170,7 +183,7 @@ void GenerateName(students** &hashtable, int &size){
     }
     first.close();
   
-  //same as above
+  //same as above, but for last name
   ifstream last("lastNames.txt");
   int randomerNum = rand()% 500;
   char last_Name[50];
@@ -179,7 +192,7 @@ void GenerateName(students** &hashtable, int &size){
   }
   last.close();
 
-  //new student
+  //create new student
   Students* student = new Students();
   //transfer over first name, last name, id gpa
   strcpy(student -> firstName, first_Name);
@@ -187,13 +200,17 @@ void GenerateName(students** &hashtable, int &size){
   strcpy(student -> lastName, last_Name);
   cout << student -> lastName << endl;
 
-  //iud caan be randomized
-  int id = 100000 + rand()% 900000;
-  student -> id = id;
-  
+  //got the idea of using a static here: https://stackoverflow.com/questions/14585385/best-practice-how-to-get-a-unique-identifier-for-the-object?utm_source=chatgpt.com 
+  static int generateID = 100000;
+  student -> id = generateID++;
+
+  student -> hash = student -> id % size;
+    
   //float to two decimal places
   float gpa = (double)(rand()%41)/(10.0);
   student -> gpa = gpa;
+
+  //add student to hashtable
   hashtable  = add(student, hashtable, size);
   }
 }
@@ -201,7 +218,9 @@ void GenerateName(students** &hashtable, int &size){
 Students** add(Students * student, Students** &hashtable, int &size){
 
   //get to current spot in hashtable
-  Students* current = hashtable[student->hash]
+  Students* current = hashtable[student->hash];
+
+  //to track number of collisions
   int collisions = 0;
 
   //if no student in current space, add to hashtable
@@ -210,29 +229,35 @@ Students** add(Students * student, Students** &hashtable, int &size){
   }else { //otherwise,if there is already something there
     while (current -> next != NULL){
       current = current -> next;
-      collision++;
-      cout << "if this is printing, then a collision occurred" << endl;
+      collisions++; // increment
+      // test case: cout << "if this is printing, then a collision occurred" << endl;
     }
+    //append student 
     current -> next = student;
   }
 
   //acount for case of three collisions by rehashing the table (lord give me the strength to get through this.........)
 
   if (collisions == 3){
-    //new tqable
+
+    //new resized table
     Students** newHashTable = new Students*[size*2]();
+    
     //iterate through the table
     for (int i = 0; i < size; i++){
       Students* currentTemporary = hashtable[i];
 
       //ensure IDS are distributed evenly along larger table as part of resizing
       while (currentTemporary != NULL){
-	int newHash = student -> id % (size % 2);
-	//copy student
+	int newHash = currentTemporary -> id % (size * 2);
+	//int newHash = student -> id % (size * 2);
+
+
+	//copy over student information
 	Students * copyStudent = new Students();
 	copyStudent -> next = NULL;
 	strcpy(copyStudent -> firstName, currentTemporary -> firstName);
-	strcpy(copyStudent -> lastName, currentTemporary -> firstName);
+	strcpy(copyStudent -> lastName, currentTemporary -> lastName);
 	copyStudent -> id = currentTemporary -> id;
 	copyStudent -> gpa = currentTemporary -> gpa;
 	copyStudent -> hash = newHash;
@@ -251,20 +276,28 @@ Students** add(Students * student, Students** &hashtable, int &size){
 	currentTemporary = currentTemporary -> next;
       }
     }
-    //delete hashtable
-    hashtable = newHashtable
+
+    //source: https://stackoverflow.com/questions/42468389/deleting-a-hash-table-in-c
+    
+    delete [] hashtable;
+    hashtable = newHashTable;
     size *= 2;
     collisions = 0;
   }
   return hashtable;
 }
-
+//function to print all students
 void printName(Students** &hashtable, int &size){
   for (int i = 0; i < size; i++){
     if(hashtable[i] != NULL){
-      
+      cout << fixed << setprecision(2);
       cout << hashtable[i]-> firstName << " " << hashtable[i]-> lastName << ", " << hashtable[i] -> id << ", " << hashtable[i] -> gpa << endl;
       Students * current = hashtable[i];
+      /*while (currrent != NULL){
+	cout << current-> firstName << " " << current->lastName << "," << current->id << "," << current->gpa << endl;
+	current = current -> next;
+	}*/
+
       while (current ->next != NULL){
 	current = current -> next;
 	cout << current-> firstName << " " << current->lastName << "," << current->id << "," << current->gpa << endl;
@@ -275,7 +308,7 @@ void printName(Students** &hashtable, int &size){
   }
 }
 
-
+//to delete all students
 Students** deleteName(Students** &hashtable, int &size){
 
   //to hold the id of the student to be delted
@@ -292,7 +325,7 @@ Students** deleteName(Students** &hashtable, int &size){
       Students* prev = NULL;
 
       while (current != NULL){
-	if (current -> id == input){
+	if (current -> id == deleteID){
 	  if (prev == NULL){
 	    hashtable[i] = current -> next;
 	  }else {
