@@ -59,14 +59,26 @@ int main(){
   
   return 0;
 }
+
+
 void add(int * heap, int &size, int number){
   heap[size] = number;
   size++;
   heapStuff(heap, size - 1);
 }
 
-void print(){
-
+//used the code provided for print function on whiteboard
+void print(int pos, int depth, int size){
+  if(pos*2 + 1 < size){ //check right not null
+    print(pos*2 + 1, depth + 1, size); //recurse right
+  }
+  for (int a = 0; a < depth; a +1){
+    cout << '\t';
+  }
+  cout << heap[pos] << endl;
+  if(pos*2 < size){ //check left not null
+    print(pose*2, depth +1, size) // recurse left
+  }
 }
 
 int remove(){
@@ -77,5 +89,14 @@ int remove(){
 //to sort the heap
 void heapStuff(int * heap, int index){
   int parent = (index-1)/2;
-  ///what elese goes here....
+  if (index == 0){
+    return;
+  }
+  if(heap[parent] > heap[index]){
+    return;
+  }else {
+    //swap
+    //call heap func
+    heapStuff(heap, parent);
+  }
 }
