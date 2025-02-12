@@ -17,10 +17,10 @@ using namespace std;
 
 //probably need an add, remove, print and heap function
 
-void add();
-void print();
+void add(int * heap, int &size, int number);
+void print(int pos, int depth, int size);
 int remove();
-void heapStuff();
+void heapStuff(int * heap, int index);
 
 
 
@@ -81,8 +81,9 @@ void print(int pos, int depth, int size){
   }
 }
 
-int remove(){
-
+int remove(int * heap, int index){
+  int temporary = heap[0];
+  
 }
 
 
