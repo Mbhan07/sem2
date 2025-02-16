@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <iterator>
 #include <fstream>
 #include <iomanip>
 #include <string>
@@ -56,14 +57,55 @@ int main(){
     if(strcmp(input, "MANUAL") == 0){
       
       cout << "manual" << endl;
+
+      int numbers = 0;
+
+      //ask user how many numbers they want to add
+      cout << "Enter the AMOUNT of numbers you would like to add: ";
+      cin >> numbers;
+
+      //we can only add up to 100 numbers
+      if(numbers > 100){
+	cout << "You can only add up to 100 numbers" << endl;
+	;
+      }else { //amount of numbers is less than 100
+	for(int i = 0; i < numbers; i++){
+	  int numberToAdd;
+	  cout << "Please enter the NUMBER you would like to add: ";
+	  cin >> numberToAdd;
+	  add(heap, size, numberToAdd);
+	  print(heap, 0, 0, size);
+	  /*cout << endl;
+	  cout << endl;
+	  cout << endl;*/
+
+	  //experimenting w/ what looks better
+	  cout <<"\n \n \n" << endl;
+	}
+      }
+      
       
     }else if(strcmp(input, "FILE") == 0){
       
       cout << "Enter the name of the file you would like to read: ";
       
       char fileName[30];
-      
+      cout << "Please enter the name of your file, including the file name (e.g. .txt or .tsv): ";
       cin >> fileName;
+      cin.ignore();
+      ifstream file;
+      file.open(fileName);
+      int input = 0;
+      int index = 0;
+
+      //read numbers in and add to heap
+
+      while (file > input){
+	add(heap, size, input);
+	index++;
+      }
+      file.close();
+      print(heap, 0, 0, size);
       
       //call file function via fstream
       
@@ -74,10 +116,15 @@ int main(){
     }else if(strcmp(input, "ALL") == 0){
       
       cout << "remove all the nodes" << endl;
+      while(heap[index] != 0){
+	cout << remove(heap, index) << endl;
+      }
       
     }else if(strcmp(input, "LARGEST") == 0){
       
       cout << "remove the largest node" << endl;
+      cout << remove(heap, index) << endl;
+      size --;
     }
 
     //will also need to delete largest or all nodes
@@ -146,10 +193,15 @@ int remove(int * heap, int index){
 
   //if current node smaller than right/left
   
-  while(true){
+  while((heap[rightNode] < heap[rightNode *2 + 1]) || (heap[rightNode] < heap[rightNode*2 + 2])){
     
-    cout << "something should occur here" << endl;
-    
+    cout << "something should occur here" << endl; //it is my lucky day! i figyured out what goes here
+    //if left is bigger than right, replace root of heap with left
+    if (heap[rightNode*2 + 1] > heap[rightNode * 2 + 2]){
+      
+    }else if (heap[rightNode*2 + 2] > heap[rightNode*2 + 1]){ //then inverse everything for the right conditgion
+      
+    }
   }
 
   return temps;
@@ -175,7 +227,7 @@ void heapStuff(int * heap, int index){
   }else {
     
     //swap
-    
+    swap(heap[parent], heap[index]);
     //call heap func
     heapStuff(heap, parent);
     
