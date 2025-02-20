@@ -19,7 +19,7 @@ using namespace std;
 //probably need an add, remove, print and heap function
 
 void add(int * heap, int &size, int number);
-void print(int pos, int depth, int size);
+void print(int * heap, int pos, int depth, int size);
 int remove(int * heap, int index);
 void heapStuff(int * heap, int index);
 
@@ -47,34 +47,39 @@ int main(){
 
     int index = 0;
     
-    
-    cout << "Would you like to enter numbers MANUAL, through a FILE, QUIT, remove ALL the nodes, or remove the LARGEST node? ";
 
+    
     char input[20];
 
+    int number;
+
+    cout << "Would you like to enter numbers MANUAL, through a FILE, QUIT, remove ALL the nodes, or remove the LARGEST node? ";
+
     cin >> input;
+
+
+    
+      int userInput;
 
     if(strcmp(input, "MANUAL") == 0){
       
       cout << "manual" << endl;
 
-      int numbers = 0;
-
       //ask user how many numbers they want to add
       cout << "Enter the AMOUNT of numbers you would like to add: ";
-      cin >> numbers;
+      cin >> userInput;
 
       //we can only add up to 100 numbers
-      if(numbers > 100){
+      if(userInput > 100){
 	cout << "You can only add up to 100 numbers" << endl;
 	;
       }else { //amount of numbers is less than 100
-	for(int i = 0; i < numbers; i++){
+	for(int i = 0; i < userInput; i++){
 	  int numberToAdd;
 	  cout << "Please enter the NUMBER you would like to add: ";
-	  cin >> numberToAdd;
-	  add(heap, size, numberToAdd);
-	  print(heap, 0, 0, size);
+	  cin >> number;
+	  add(heap, size, number);
+	  // print(heap, 0, 0, size);
 	  /*cout << endl;
 	  cout << endl;
 	  cout << endl;*/
@@ -87,29 +92,48 @@ int main(){
       
     }else if(strcmp(input, "FILE") == 0){
       
-      cout << "Enter the name of the file you would like to read: ";
+      // cout << "Enter the name of the file you would like to read: ";
       
-      char fileName[30];
-      cout << "Please enter the name of your file, including the file name (e.g. .txt or .tsv): ";
-      cin >> fileName;
-      cin.ignore();
-      ifstream file;
-      file.open(fileName);
-      int input = 0;
+      //char fileName[30];
+      //cout << "Please enter the name of your file, including the file name (e.g. .txt or .tsv): ";
+      //cin >> fileName;
+      //cin.ignore();
+      //ifstream file;
+      //file.open(file);
+      ifstream fin("numbers.txt");
+
+      int input;
+      
+      cout << "How many numbers do you wish to add?" << endl;
+      cin >> input;
+
+      
       int index = 0;
-
+      for (int i = 0; i < input; i++) {
       //read numbers in and add to heap
-
-      while (file > input){
-	add(heap, size, input);
-	index++;
+	
+      //while (fin >> input){
+	fin >> number;
+	cout << "Read in: " << number << endl;
+	add(heap, size, number);
+	//index++;
       }
-      file.close();
-      print(heap, 0, 0, size);
+      fin.close();
+      //  print(heap, 0, 0, size);
       
       //call file function via fstream
       
-    }else if(strcmp(input, "QUIT") == 0){
+    }
+    else if (strcmp(input, "PRINT")==0) {
+
+      print(heap, 1, 0, size);
+
+
+
+    }
+
+
+    else if(strcmp(input, "QUIT") == 0){
       
       exit(0);
       
@@ -117,6 +141,7 @@ int main(){
       
       cout << "remove all the nodes" << endl;
       while(heap[index] != 0){
+
 	cout << remove(heap, index) << endl;
       }
       
@@ -146,11 +171,12 @@ void add(int * heap, int &size, int number){
 
 //used the code provided for print function on whiteboard
 
-void print(int pos, int depth, int size){
-  
+void print(int * heap, int pos, int depth, int size){
+
+  cout << size;
   if(pos*2 + 1 < size){ //check right not null
     
-    print(pos*2 + 1, depth + 1, size); //recurse right
+    print(heap, pos*2 + 1, depth + 1, size); //recurse right
     
   }
   
@@ -164,7 +190,7 @@ void print(int pos, int depth, int size){
   
   if(pos*2 < size){ //check left not null
     
-    print(pose*2, depth +1, size) // recurse left
+    print(heap, pos*2, depth +1, size); // recurse left
 
   }
 }
@@ -204,7 +230,7 @@ int remove(int * heap, int index){
     }
   }
 
-  return temps;
+  return temporary;
   
 }
 
