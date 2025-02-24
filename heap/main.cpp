@@ -8,7 +8,9 @@
 
 /*
 
-  This is heap
+  This is heap. In this project, we  impleemnt a a max heap using an array. Users can add numbers manually, from a file, remove the largest or all the elements or print it in a structured format.
+
+  Parth C helped debug my code
 
   Mahika Bhan, 02/21/2025
 
@@ -43,12 +45,13 @@ int main(){
     
   }
 
+  //main loop for user interaction
   while (true){
 
     int index = 0;
     
 
-    
+    //for user input
     char input[20];
 
     int number;
@@ -56,10 +59,8 @@ int main(){
     cout << "Would you like to enter numbers MANUAL, through a FILE, QUIT, remove ALL the nodes, or remove the LARGEST node? ";
 
     cin >> input;
-
-
     
-      int userInput;
+    int userInput;
 
     if(strcmp(input, "MANUAL") == 0){
       
@@ -89,7 +90,7 @@ int main(){
 	}
       }
       
-      
+      //if user says file, read in file via fstream
     }else if(strcmp(input, "FILE") == 0){
       
        cout << "Enter the name of the file you would like to read: ";
@@ -125,7 +126,7 @@ int main(){
       
     }
     else if (strcmp(input, "PRINT")==0) {
-
+      //call print func if user says print
       print(heap, 1, 0, size);
 
 
@@ -136,16 +137,20 @@ int main(){
     else if(strcmp(input, "QUIT") == 0){
       
       exit(0);
+
+    //remove all elements if user says so 
       
     }else if(strcmp(input, "ALL") == 0){
       
       cout << "remove all the nodes" << endl;
-      while(heap[index] != 0){
+      while(heap[index] != 0){ //while heap index is not 0
 
-	cout << remove(heap, index) << endl;
+	cout << remove(heap, index) << endl; //remove
       }
-      size = 0;
-      
+      size = 0; //set size to 0 to reset
+
+
+      //remove largest  
     }else if(strcmp(input, "LARGEST") == 0){
       
       cout << "remove the largest node" << endl;
@@ -160,13 +165,16 @@ int main(){
   return 0;
 }
 
-
+//add number to heap
 void add(int * heap, int &size, int number){
 
+  //add the number at the end of the heap
   heap[size] = number;
 
+  //increment hepa size
   size++;
-  
+
+  //call heap func
   heapStuff(heap, size - 1);
 }
 
@@ -198,9 +206,9 @@ void print(int * heap, int pos, int depth, int size){
 
 int remove(int * heap, int index){
 
-  int temporary = heap[0];
+  int temporary = heap[0]; //stores root of element
 
-  int sizes = 0;
+  int sizes = 0; 
 
   //get size of heap
 
@@ -210,13 +218,15 @@ int remove(int * heap, int index){
     
   }
 
+  //adjust size
+
   sizes = sizes - 1;
   
-  int rightNode = index;
+  int rightNode = index; //start at root
 
-  heap[index] = heap[sizes];
+  heap[index] = heap[sizes]; //replace root with last element
 
-  heap[sizes] = 0;
+  heap[sizes] = 0; //remove last element
 
   //if current node smaller than right/left
   
@@ -246,13 +256,14 @@ int remove(int * heap, int index){
 
 void heapStuff(int * heap, int index){
   
-  int parent = (index-1)/2;
+  int parent = (index-1)/2; //calculate parent index
   
-  if (index == 0){
+  if (index == 0){ // if reach root, return
     
     return;
   }
-  
+
+  //if parent greater than index, swap 
   if(heap[parent] > heap[index]){
 
     return;
