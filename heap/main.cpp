@@ -92,15 +92,15 @@ int main(){
       
     }else if(strcmp(input, "FILE") == 0){
       
-      // cout << "Enter the name of the file you would like to read: ";
+       cout << "Enter the name of the file you would like to read: ";
       
-      //char fileName[30];
-      //cout << "Please enter the name of your file, including the file name (e.g. .txt or .tsv): ";
-      //cin >> fileName;
-      //cin.ignore();
-      //ifstream file;
-      //file.open(file);
-      ifstream fin("numbers.txt");
+      char fileName[30];
+      cout << "Please enter the name of your file, including the file name (e.g. .txt or .tsv): ";
+      cin >> fileName;
+      cin.ignore();
+      ifstream file;
+      file.open(file);
+      //ifstream fin("numbers.txt");
 
       int input;
       
@@ -144,6 +144,7 @@ int main(){
 
 	cout << remove(heap, index) << endl;
       }
+      size = 0;
       
     }else if(strcmp(input, "LARGEST") == 0){
       
@@ -162,11 +163,11 @@ int main(){
 
 void add(int * heap, int &size, int number){
 
+  heap[size] = number;
+
   size++;
   
-  heap[size] = number;
-  
-  heapStuff(heap, size);
+  heapStuff(heap, size - 1);
 }
 
 //used the code provided for print function on whiteboard
@@ -174,7 +175,7 @@ void add(int * heap, int &size, int number){
 void print(int * heap, int pos, int depth, int size){
 
   cout << size;
-  if(pos*2 + 1 < size){ //check right not null
+  if(pos*2 + 1 <= size){ //check right not null
     
     print(heap, pos*2 + 1, depth + 1, size); //recurse right
     
@@ -245,7 +246,7 @@ int remove(int * heap, int index){
 
 void heapStuff(int * heap, int index){
   
-  int parent = index/2;
+  int parent = (index-1)/2;
   
   if (index == 0){
     
