@@ -10,7 +10,7 @@
 
   This is heap
 
-  Mahika Bhan, 
+  Mahika Bhan, 02/21/2025
 
 */
 using namespace std;
@@ -162,11 +162,11 @@ int main(){
 
 void add(int * heap, int &size, int number){
 
-  heap[size] = number;
-  
   size++;
   
-  heapStuff(heap, size - 1);
+  heap[size] = number;
+  
+  heapStuff(heap, size);
 }
 
 //used the code provided for print function on whiteboard
@@ -180,7 +180,7 @@ void print(int * heap, int pos, int depth, int size){
     
   }
   
-  for (int a = 0; a < depth; a +1){
+  for (int a = 0; a < depth; a++){
     
     cout << '\t';
     
@@ -224,9 +224,15 @@ int remove(int * heap, int index){
     cout << "something should occur here" << endl; //it is my lucky day! i figyured out what goes here
     //if left is bigger than right, replace root of heap with left
     if (heap[rightNode*2 + 1] > heap[rightNode * 2 + 2]){
-      
+      int temp = heap[rightNode];
+      heap[rightNode] = heap[rightNode*2 + 1];
+      heap[rightNode*2 + 1] = temp;
+      rightNode = rightNode*2 + 1;
     }else if (heap[rightNode*2 + 2] > heap[rightNode*2 + 1]){ //then inverse everything for the right conditgion
-      
+      int temp = heap[rightNode];
+      heap[rightNode] = heap[rightNode*2 + 2];
+      heap[rightNode*2 + 2] = temp;
+      rightNode = rightNode*2 + 2;
     }
   }
 
@@ -239,7 +245,7 @@ int remove(int * heap, int index){
 
 void heapStuff(int * heap, int index){
   
-  int parent = (index-1)/2;
+  int parent = index/2;
   
   if (index == 0){
     
