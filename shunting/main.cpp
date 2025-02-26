@@ -23,7 +23,12 @@ Struct Node {
 
 };
 
-//probably would need a struct for the nodes in the tree as well
+Struct nodeForTree {
+  
+
+};
+
+//^^^^^^^^^^^^^^^^^^^^^ Probablyy would need a node struct for the tree as well 
 
 
 //function prototypes go here
