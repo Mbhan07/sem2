@@ -23,6 +23,9 @@ Struct Node {
 
 };
 
+void push();
+//void 
+
 //probably would need a struct for the nodes in the tree as well
 
 
@@ -30,7 +33,46 @@ Struct Node {
 
 //main logic goes here
 int main(){
+  Node * head = NULL;
+  while true(){
+    char input[101];
+    cin << "Please enter yadayadyaydayadyayadyayadq" << endl;
+    cin.getline(input, 100, '\n');
+    int length = strlen(input);
+    char output[101];
+    char random = 0;
 
+    //essentialy copy over to output from input the non-input with the non-space
+    for (int i = 0; i < length; i++){
+      if (input[i] != ' '){
+	output[a] = input [i];
+	a++;
+      }
+    }
+    /// now we need to do the boogie
+
+    //call shunting yard function
+    //build the tree
+    while (true){
+      char secondInput[42];
+      
+      cout << "How would you like to display this? Prefix (Pr), Postfix (Po), Infix (In), etc...";
+
+      cin.getline(secondInput, 40, '\n');
+
+      if(strcmp(secondInput, "Pr") == 0){
+	cout << "prefix" << endl;
+      }else if(strcmp(secondInput, "Po") == 0){
+	cout << "postfix"<< endl;
+      }else if(strcmp(secondInput, "In") == 0){
+	cout << "infix" << endl;
+      }else if(strcmp(secondInput, "QUIT") == 0){
+	cout "quit";
+	exit(0);
+      }
+
+    }
+  }
   return 0;
 }
 
