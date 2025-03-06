@@ -26,11 +26,16 @@ int remove(int * heap, int index);
 void heapStuff(int * heap, int index);
 
 
-
+//try8ing to see if this will change
 
 
 int main(){
 
+  int mahi = 0;
+
+  mahi = mahi + 1;
+
+  cout << "This is int mahi: " << mahi << endl;
   //create heap
   
   int heap[101];
