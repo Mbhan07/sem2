@@ -31,6 +31,8 @@ void heapStuff(int * heap, int index);
 
 int main(){
 
+
+
   //create heap
   
   int heap[101];
@@ -73,7 +75,7 @@ int main(){
       //we can only add up to 100 numbers
       if(userInput > 100){
 	cout << "You can only add up to 100 numbers" << endl;
-	;
+	//;
       }else { //amount of numbers is less than 100
 	for(int i = 0; i < userInput; i++){
 	  int numberToAdd;
@@ -86,7 +88,7 @@ int main(){
 	  cout << endl;*/
 
 	  //experimenting w/ what looks better
-	  cout <<"\n \n \n" << endl;
+	  //xcout <<"\n \n \n" << endl;
 	}
       }
       
@@ -100,7 +102,7 @@ int main(){
       cin >> fileName;
       cin.ignore();
       ifstream file;
-      file.open(file);
+      file.open(fileName);
       //ifstream fin("numbers.txt");
 
       int input;
@@ -112,18 +114,19 @@ int main(){
       int index = 0;
       for (int i = 0; i < input; i++) {
       //read numbers in and add to heap
-	
-      //while (fin >> input){
-	fin >> number;
+	cout << "bum bum bum bum bumb " << endl;
+      while (file >> input){
+	file >> number;
 	cout << "Read in: " << number << endl;
 	add(heap, size, number);
 	//index++;
       }
-      fin.close();
+      file.close();
       //  print(heap, 0, 0, size);
       
       //call file function via fstream
       
+    }
     }
     else if (strcmp(input, "PRINT")==0) {
       //call print func if user says print
@@ -179,11 +182,11 @@ void add(int * heap, int &size, int number){
 }
 
 //used the code provided for print function on whiteboard
-
+//rename size to slot
 void print(int * heap, int pos, int depth, int size){
 
-  cout << size;
-  if(pos*2 + 1 <= size){ //check right not null
+  //  cout << size;
+  if (pos*2+ 1 < size) { //check right not null
     
     print(heap, pos*2 + 1, depth + 1, size); //recurse right
     
@@ -203,6 +206,8 @@ void print(int * heap, int pos, int depth, int size){
 
   }
 }
+
+
 
 int remove(int * heap, int index){
 
