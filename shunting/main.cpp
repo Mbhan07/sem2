@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <cctype>
 
 using namespace std;
 
@@ -70,6 +71,106 @@ int main(){
   }
   return 0;
 }
+
+//add node to stack
+void push(Node *&head, Node * thingToAdd){
+  if (head = NULL) { // simple traversal here
+    head = thingToAdd;
+  }else {
+    //temporary pointer
+    Node * current = head;
+    while(current -> next != NULL){
+      current = current -> next;
+    }
+    current -> next = thingToAdd;
+  }
+}
+
+Node * peek(Node * head){
+  Node * current = head;
+  //traversion through the list
+  while (current != NULL && current -> next != NULL){
+    current = current -> next;
+  }
+
+  return current;
+}
+
+//pop
+void pop(Node *& head){
+  Node * current = head;
+
+  if (current -> next == NULL){
+    head = NULL;
+    delete current;
+    return;
+  }
+
+  while(current -> next -> next != NULL){
+    current = current -> next;
+  }
+
+  delete current-> next;
+
+  current-> next = NULL;
+
+}
+
+//enqueue
+
+void enqueue(Node *& head, char input){
+  Node * newNode = new Node();
+  newNode -> data = input;
+  newNode -> next = NULL;
+
+  if(head == NULL){
+    head = newNode;
+  }else {
+    Node * current = head;
+    while(current -> next != NULL){
+      current = current -> next;
+    }
+    current -> next = newNode;
+  }
+}
+
+//dequeue
+void dequeue(Node *&head){
+  Node * current = head;
+  if(current -> next == NULL){
+    head = NULL;
+    delete current;
+  }
+  else if(current -> next != NULL){
+    Node * temp = current -> next;
+    head = NULL;
+    delete current;
+    head = temp;
+  }
+}
+
+//precedence
+int precedence(char operators){
+  if (operators == '+' || operators == '-'){
+    return 1;
+  }else if(operators == '*' || operators == "/"){
+    return 2;
+  }else if(operators == '^'){
+    return 3;
+  }
+
+  return 0;
+}
+
+//shunt yard method
+
+//buiding the tree method
+
+//infix func
+
+//postfix func
+
+//prefix func
 
 
 //probably need function for infix, prefix, postfic
