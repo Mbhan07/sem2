@@ -198,9 +198,48 @@ void shuntingYard(Node * & head, char * output){
 void treeBuilding(Node * & head){
   Node * current = head;
 
+  Node * stackOperand = NULL;
+  
   while (current != NULL){
-    
+    if(isdigit(current -> data)){
+      //create new node and push out to stack
+      Node * nodeOperand = new Node();
+      //store operand data
+      nodeOperand -> data = current -> data;
+      push(stackOperand, nodeOperand); // pushoperand onto operand stack
+    }else {
+      
+      Node * nodeOperator = new Node();
+      nodeOperator -> data = current -> data;
+      Node * rightOperand = new Node();
+
+      rightOperand -> data = peek(stackOperand) -> data;
+      rightOperand -> right = peek(stackOperand) -> right;
+      rightOperand -> left = peek(stackOperand) -> left;
+
+      nodeOperator -> right = rightOperand;
+
+      pop(stackOperand);
+
+      Node * leftOperand = new Node();
+
+      leftOperand -> data = peek(stackOperand) -> data;
+      leftOperand -> right = peek(stackOperand) -> right;
+      leftOperand -> left = peek(stackOperand) -> left;
+
+      noderOperator-> left = leftOperand. 
+
+
+      push(stackOperand, nodeOperand);
+      
+    }
+
+    dequeue(head);
+    current = head;
   }
+
+  head = peek(stackOperand);
+  
 }
 //infix func
 void infix(Node * head) {
