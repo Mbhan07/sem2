@@ -183,14 +183,30 @@ void shuntingYard(Node * & head, char * output){
       
     } //closed parentheses
     else if(output[i] == ')'){
-      
+      while(peek(stackOperator) && peek(stackOperator) -> data != '('){
+	enqueue(head, peek(stackOperator) -> data);
+	pop(stackOperator).
+      }
+      if(peek(stackOperator) && peek(stackOperator) -> data == 'C'){
+	pop(stackOperator);
+      }
     }
     else if(!isdigit(output[i]) && output[i] != '(' && output[i] != ')'){
-      
+      while(peek(stackOperator) && precendence(peek(stackOperator) -> data) >= precedence(output[i]) && output[i] != '^'){
+	enqueue(head, peek(stackOperator) -> data);
+	pop(stackOperator);
+      }
+      Node * temp = new Node();
+      temp -> data = output[i];
+      temp -> next = NULL;
+      temp -> right = NULL;
+      temp -> left = NULL;
+      push(stackOperator, temp);
     }
   }
   while(stackOperator != NULL){
-    
+    enqueue(head, peek(stackOperator)-> data);
+    pop(stackOperator);
   }
 }
 
