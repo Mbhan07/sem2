@@ -27,6 +27,20 @@ Struct Node {
 
 //function prototypes go here
 
+void push(Node *&head, Node * thingToAdd);
+Node * peek(Node * head);
+void pop(Node *&head);
+
+void infix(Node * head);
+void postfix(Node * head);
+void prefix(Node * head);
+
+void enqueue(Node *&head, char input);
+void dequeue(Node * &head);
+
+void treeBuilding(Node *&head);
+void shuntingYard(Node *&head, char * output);
+
 //main logic goes here
 int main(){
   Node * head = NULL;
@@ -63,7 +77,7 @@ int main(){
       }else if(strcmp(secondInput, "In") == 0){
 	cout << "infix" << endl;
       }else if(strcmp(secondInput, "QUIT") == 0){
-	cout "quit";
+	cout << "quit";
 	exit(0);
       }
 
