@@ -163,16 +163,41 @@ int precedence(char operators){
 }
 
 //shunt yard method
+void shuntingYard(){
+
+}
 
 //buiding the tree method
+void treeBuilding(Node * & head){
 
+}
 //infix func
+void infix(Node * head) {
+  if (head != NULL){
+    infix(head -> left);
+    cout << head -> data << " ";
+    infix(head -> right);
+  }
 
+}
 //postfix func
+void postfix(Node * head){
+  if(head != NULL){
+    postfix(head -> left);
+    postfix(head -> right);
+    cout << head -> data << " ";
+  }
+}
 
 //prefix func
+void prefix(Node * head){
+  if(head != NULL){
+    cout << head -> data << " ";
+    prefix(head -> left);
+    prefix(head -> right);
+  }
+}
 
 
-//probably need function for infix, prefix, postfic
 
-//probably need function to build the tree
+
