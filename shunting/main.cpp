@@ -163,13 +163,44 @@ int precedence(char operators){
 }
 
 //shunt yard method
-void shuntingYard(){
+void shuntingYard(Node * & head, char * output){
+  cout << "Input Expression: " << output << endl;
+  int length = strlen(output);
+  Node * stackOperator = NULL; //we're gonna need this later
+  for (int i = 0; i < length; i++){
+    if(isdigit(output[i])){ //if digit
+      enqueue(head, output[i]);
+    }
+    //open parantehsis
+    else if(output[i] == '(') {
+      Node * temp = new Node();
+      temp -> data = '(';
+      temp -> next = NULL;
+      temp -> right = NULL;
+      temp -> left = NULL;
 
+      push(stackOperator, temp);
+      
+    } //closed parentheses
+    else if(output[i] == ')'){
+      
+    }
+    else if(!isdigit(output[i]) && output[i] != '(' && output[i] != ')'){
+      
+    }
+  }
+  while(stackOperator != NULL){
+    
+  }
 }
 
 //buiding the tree method
 void treeBuilding(Node * & head){
+  Node * current = head;
 
+  while (current != NULL){
+    
+  }
 }
 //infix func
 void infix(Node * head) {
