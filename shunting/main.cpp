@@ -13,14 +13,14 @@ The purpose of this project is to implement the Shunting Yard algorithim, to con
 
 //gonna need a node struct
 
-Struct Node {
+struct Node {
   
   char data;
-  node * next;
+  Node * next;
 
   //left and right pointers --> similar to heap
-  node * right;
-  node * left;
+  Node * right;
+  Node * left;
 
 };
 
@@ -44,15 +44,16 @@ void shuntingYard(Node *&head, char * output);
 //main logic goes here
 int main(){
   Node * head = NULL;
-  while true(){
+  while (true){
     char input[101];
-    cin << "Please enter yadayadyaydayadyayadyayadq" << endl;
+    cout << "Please enter an equation: " << endl;
     cin.getline(input, 100, '\n');
     int length = strlen(input);
     char output[101];
     char random = 0;
 
     //essentialy copy over to output from input the non-input with the non-space
+    int a = 0;
     for (int i = 0; i < length; i++){
       if (input[i] != ' '){
 	output[a] = input [i];
@@ -167,7 +168,7 @@ void dequeue(Node *&head){
 int precedence(char operators){
   if (operators == '+' || operators == '-'){
     return 1;
-  }else if(operators == '*' || operators == "/"){
+  }else if(operators == '*' || operators == '/'){
     return 2;
   }else if(operators == '^'){
     return 3;
@@ -199,14 +200,14 @@ void shuntingYard(Node * & head, char * output){
     else if(output[i] == ')'){
       while(peek(stackOperator) && peek(stackOperator) -> data != '('){
 	enqueue(head, peek(stackOperator) -> data);
-	pop(stackOperator).
+	pop(stackOperator);
       }
       if(peek(stackOperator) && peek(stackOperator) -> data == 'C'){
 	pop(stackOperator);
       }
     }
     else if(!isdigit(output[i]) && output[i] != '(' && output[i] != ')'){
-      while(peek(stackOperator) && precendence(peek(stackOperator) -> data) >= precedence(output[i]) && output[i] != '^'){
+      while(peek(stackOperator) && precedence(peek(stackOperator) -> data) >= precedence(output[i]) && output[i] != '^'){
 	enqueue(head, peek(stackOperator) -> data);
 	pop(stackOperator);
       }
@@ -257,11 +258,11 @@ void treeBuilding(Node * & head){
       leftOperand -> right = peek(stackOperand) -> right;
       leftOperand -> left = peek(stackOperand) -> left;
 
-      noderOperator-> left = leftOperand. 
+      nodeOperator-> left = leftOperand; 
 
 
-      push(stackOperand, nodeOperand);
-      
+      //push(stackOperand, nodeOperand);
+      push(stackOperand, nodeOperator);
     }
 
     dequeue(head);
