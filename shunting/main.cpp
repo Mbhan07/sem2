@@ -73,13 +73,19 @@ int main(){
 
       if(strcmp(secondInput, "Pr") == 0){
 	cout << "prefix" << endl;
+	prefix(head);
+	break;
       }else if(strcmp(secondInput, "Po") == 0){
 	cout << "postfix"<< endl;
+	postfix(head);
       }else if(strcmp(secondInput, "In") == 0){
 	cout << "infix" << endl;
+	infix(head);
       }else if(strcmp(secondInput, "QUIT") == 0){
 	cout << "quit";
 	exit(0);
+      }else {
+	cout << "Invalid input. Please enter Pr. Po, In, or QUIT. " << endl;
       }
 
     }
@@ -89,7 +95,7 @@ int main(){
 
 //add node to stack
 void push(Node *&head, Node * thingToAdd){
-  if (head = NULL) { // simple traversal here
+  if (head == NULL) { // simple traversal here
     head = thingToAdd;
   }else {
     //temporary pointer
