@@ -26,12 +26,10 @@ int remove(int * heap, int index);
 void heapStuff(int * heap, int index);
 
 
-
+//try8ing to see if this will change
 
 
 int main(){
-
-
 
   //create heap
   
