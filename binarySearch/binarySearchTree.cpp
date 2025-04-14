@@ -129,7 +129,28 @@ int main(){
 }
 
 void add(binaryTree * newTree, int toAdd){
-
+  if(newTree->data = -1){
+    newTree->data = toAdd;
+    return;
+  }else {
+    if(toAdd < newTree->data && newTree-> left){
+      newTree = newTree -> left;
+      add(newTree, toAdd);
+    }else if(toAdd < newTree -> data && !newTree -> left){
+      binaryTree * newNode = new binaryTree();
+      newNode -> data = toAdd;
+      newTree->left = newNode;
+      return;
+    }if(toAdd > newTree->data && newTree->right){
+      newTree = newTree->right;
+      add(newTree, toAdd);
+    }else if(toAdd > newTree->data && !newTree->right){
+      binaryTree * newNode = new binaryTree();
+      newNode->data = toAdd;
+      newTree->right = newNode;
+      return;
+    }
+  }
 }
 //similar to heap
 void printTree(binaryTree * newTree, int depth){
