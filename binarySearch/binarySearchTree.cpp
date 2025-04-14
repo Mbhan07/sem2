@@ -8,6 +8,12 @@ struct binaryTree{
   binaryTree * left;
 };
 
+//function prototypes for add, print, search, and delete functions
+
+void add(binaryTree * newTree, int toAdd);
+void printTree(binaryTree * newTree, int depth);
+binaryTree * deleteTree(binaryTree * newTree, int toDelete);
+bool search(binaryTree * newTree, int numToSearchFor);
 
 using namespace std;
 
@@ -40,7 +46,10 @@ int main(){
 	cin >> numInput;
 
 	//call add function
+	add(newTree, numInput);
+	
 	//then print function
+	printTree(newTree, 0);
 
 	cout << endl;
 	cout << endl;
@@ -65,15 +74,22 @@ int main(){
 
       while(file >> input){
 	//call add function
+	add(newTree, input);
       }
       file.close();
+      
       //print function
+
+      printTree(newTree, 0);
+      
       
     }else if(strcmp(input, "PRINT") == 0){
 
       cout << "print" << endl;
 
       //call print function
+
+      printTree(newTree, 0);
 
     }else if(strcmp(input, "SEARCH")== 0){
 
@@ -93,10 +109,14 @@ int main(){
 	cout << "Number not found: " << value << endl;
       }
     }else if(strcmp(input, "DELETE") == 0){
+      
       int toDelete;
+      
       cout << "What value would you like to delete? ";
       cin >> toDelete;
+      
       //call delete function
+      deleteTree(newTree, toDelete);
     }else if(strcmp(input, "QUIT") == 0){
       exit(0);
     }else{
@@ -108,7 +128,47 @@ int main(){
   return 0;
 }
 
+void add(binaryTree * newTree, int toAdd){
 
-bool search( binaryTree * newTree, int numToSearchFor){
+}
+//similar to heap
+void printTree(binaryTree * newTree, int depth){
+  if(newTree -> right){
+    printTree(newTree->right, depth+1);
+  }
 
+  for(int i = 0; i < depth; i++){
+    cout << "\t";
+    
+  }
+  cout << newTree->data << endl;
+  if(newTree-> left){
+    printTree(newTree->left, depth+1);
+  }
+}
+
+binaryTree * deleteTree(binaryTree * newTree, int toDelete){
+
+  return newTree;
+}
+
+bool search(binaryTree * newTree, int numToSearchFor){
+  if(numToSearchFor == newTree->data){
+    return true;
+    exit(0);
+  }else if(numToSearchFor < newTree->data){
+    if(!newTree -> left){
+      
+    }else {
+      search(newTree->left, numToSearchFor);
+    }
+  }else if(numToSearchFor > newTree->data){
+    if(!newTree -> right){
+      
+    }else {
+      search(newTree->right, numToSearchFor);
+    }
+  }else{
+    return false;
+  }
 }
