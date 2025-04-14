@@ -188,11 +188,11 @@ binaryTree * deleteTree(binaryTree * newTree, int toDelete){
     }else {
       binaryTree * beginning = newTree -> right;
       while(beginning->left != NULL){
-	start = start->left;
+	beginning = beginning->left;
       }
       binaryTree * smallest = beginning;
       newTree->data = smallest->data;
-      newTree->right = delete(newTree->right, smallest->data);
+      newTree->right = deleteTree(newTree->right, smallest->data);
     }
   }
   
@@ -218,4 +218,6 @@ bool search(binaryTree * newTree, int numToSearchFor){
   }else{
     return false;
   }
+
+  return false;
 }
