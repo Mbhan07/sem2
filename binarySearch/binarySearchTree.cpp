@@ -169,7 +169,33 @@ void printTree(binaryTree * newTree, int depth){
 }
 
 binaryTree * deleteTree(binaryTree * newTree, int toDelete){
+  if(newTree == NULL){
+    return newTree;
+  }if(newTree->data > toDelete){
+    newTree->left = deleteTree(newTree->left, toDelete);
+  }else if(newTree->data < toDelete){
+    newTree->right = deleteTree(newTree->right, toDelete);
+  }else { //actually deletion now
+    if(newTree->left == NULL){
+      binaryTree * temp = newTree->right;
+      delete newTree;
+      return temp;
+    }if(newTree->right == NULL){
 
+      binaryTree * temp = newTree->left;
+      delete newTree;
+      return temp;
+    }else {
+      binaryTree * beginning = newTree -> right;
+      while(beginning->left != NULL){
+	start = start->left;
+      }
+      binaryTree * smallest = beginning;
+      newTree->data = smallest->data;
+      newTree->right = delete(newTree->right, smallest->data);
+    }
+  }
+  
   return newTree;
 }
 
