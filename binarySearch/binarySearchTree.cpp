@@ -2,30 +2,32 @@
 #include <cstring>
 #include <fstream>
 
+//doubly linked list struct to represent binary tree
 struct binaryTree{
   int data;
-  binaryTree * right;
-  binaryTree * left;
+  binaryTree * right; //right points to greater values
+  binaryTree * left; //left points to lesser values
 };
 
 //function prototypes for add, print, search, and delete functions
 
-void add(binaryTree * newTree, int toAdd);
-void printTree(binaryTree * newTree, int depth);
-binaryTree * deleteTree(binaryTree * newTree, int toDelete);
-bool search(binaryTree * newTree, int numToSearchFor);
+void add(binaryTree * newTree, int toAdd); //add value to BST
+void printTree(binaryTree * newTree, int depth); // display BST
+binaryTree * deleteTree(binaryTree * newTree, int toDelete); //delete value from BST
+bool search(binaryTree * newTree, int numToSearchFor); //search for value in BST
 
 using namespace std;
 
 int main(){
 
-  //make a new tree + set root node = -1
+  //make a new tree + set root node = -1 (indicates an empty tree)
   binaryTree * newTree = new binaryTree();
   newTree -> data = -1;
 
   while (true){
     char input[100];
 
+    //figure out what user wants to do
     cout << "Would you like to read in numbers MANUALLY (1-999, separated by a single space), through a FILE, PRINT, SEARCH, DELETE, or QUIT?" << endl;
     cin >> input;
 
@@ -45,10 +47,10 @@ int main(){
 	cout << "Please enter a number: ";
 	cin >> numInput;
 
-	//call add function
+	//call add function to insert into BST
 	add(newTree, numInput);
 	
-	//then print function
+	//then print function to display BST
 	printTree(newTree, 0);
 
 	//cout << endl;
@@ -59,8 +61,10 @@ int main(){
 
       char fileName[30];
 
+      //read in file via fstream
       cout << "what is the name of the file you want to use? make sure you include the file type as well (e.g. .txt)" << endl;
 
+      //get filename
       cin >> fileName;
       cin.ignore();
 
@@ -73,14 +77,14 @@ int main(){
       //read numbers in and add
 
       while(file >> input){
-	//call add function
+	//call add function to add each number from the file 
 	add(newTree, input);
       }
       file.close();
       
       //print function
 
-      printTree(newTree, 0);
+      printTree(newTree, 0); //print full tree after file input
       
       
     }else if(strcmp(input, "PRINT") == 0){
@@ -101,11 +105,12 @@ int main(){
 
       cin >> value;
 
+      //if search returns true, then value is found
       if(search(newTree, value) == true){
 
 	cout << "Number found: " << value << endl;
 
-      }else {
+      }else {//else value not found
 	cout << "Number not found: " << value << endl;
       }
     }else if(strcmp(input, "DELETE") == 0){
@@ -128,19 +133,25 @@ int main(){
   return 0;
 }
 
+//add new value into the binary tree
 void add(binaryTree * newTree, int toAdd){
   if(newTree->data == -1){
+    //tree is empty (first value), just send root
     newTree->data = toAdd;
     return;
   }else {
+    //go left if value is smaller
     if(toAdd < newTree->data && newTree-> left){
       newTree = newTree -> left;
       add(newTree, toAdd);
+      
     }else if(toAdd < newTree -> data && !newTree -> left){
       binaryTree * newNode = new binaryTree();
       newNode -> data = toAdd;
       newTree->left = newNode;
       return;
+
+    //go right if value is larger
     }if(toAdd > newTree->data && newTree->right){
       newTree = newTree->right;
       add(newTree, toAdd);
@@ -152,19 +163,19 @@ void add(binaryTree * newTree, int toAdd){
     }
   }
 }
-//similar to heap
+//similar to heap, print BST rotates sideways
 void printTree(binaryTree * newTree, int depth){
   if(newTree -> right){
-    printTree(newTree->right, depth+1);
+    printTree(newTree->right, depth+1); //right child first(will appear on top)
   }
 
   for(int i = 0; i < depth; i++){
-    cout << "\t";
+    cout << "\t"; //indent based on tree depth
     
   }
   cout << newTree->data << endl;
   if(newTree-> left){
-    printTree(newTree->left, depth+1);
+    printTree(newTree->left, depth+1); //left child second (will appear below)
   }
 }
 
@@ -172,10 +183,10 @@ binaryTree * deleteTree(binaryTree * newTree, int toDelete){
   if(newTree == NULL){
     return newTree;
   }if(newTree->data > toDelete){
-    newTree->left = deleteTree(newTree->left, toDelete);
+    newTree->left = deleteTree(newTree->left, toDelete); //search left
   }else if(newTree->data < toDelete){
-    newTree->right = deleteTree(newTree->right, toDelete);
-  }else { //actually deletion now
+    newTree->right = deleteTree(newTree->right, toDelete); //search right
+  }else { //actually deletion now because node found
     if(newTree->left == NULL){
       binaryTree * temp = newTree->right;
       delete newTree;
@@ -185,11 +196,11 @@ binaryTree * deleteTree(binaryTree * newTree, int toDelete){
       binaryTree * temp = newTree->left;
       delete newTree;
       return temp;
-    }else {
+    }else { //node with two children, replace with inorder successor 
       binaryTree * beginning = newTree -> right;
       while(beginning->left != NULL){
 	beginning = beginning->left;
-      }
+      }//replace current w successor, delete successor
       binaryTree * smallest = beginning;
       newTree->data = smallest->data;
       newTree->right = deleteTree(newTree->right, smallest->data);
@@ -199,14 +210,18 @@ binaryTree * deleteTree(binaryTree * newTree, int toDelete){
   return newTree;
 }
 
+//recursively search for value in BST
 bool search(binaryTree * newTree, int numToSearchFor){
-
+  //base case where we reach a null node
   if(newTree == NULL){
     return false;
+  //value matches current node's data
   }if(numToSearchFor == newTree->data){
     return true;
+  //if value is smaller, search left subtree
   }else if(numToSearchFor < newTree->data){
     return search(newTree->left, numToSearchFor);
+  //if value is greater, search right tree
   }else{
     return search(newTree->right, numToSearchFor);
   }
