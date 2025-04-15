@@ -31,7 +31,7 @@ int main(){
 
     if(strcmp(input, "MANUALLY") == 0){
 
-      cout << "manualy" << endl;
+      //cout << "manualy" << endl;
 
       int numbers;
 
@@ -51,7 +51,7 @@ int main(){
 	//then print function
 	printTree(newTree, 0);
 
-	cout << endl;
+	//cout << endl;
 	cout << endl;
       }
       
@@ -85,7 +85,7 @@ int main(){
       
     }else if(strcmp(input, "PRINT") == 0){
 
-      cout << "print" << endl;
+      //cout << "print" << endl;
 
       //call print function
 
@@ -93,7 +93,7 @@ int main(){
 
     }else if(strcmp(input, "SEARCH")== 0){
 
-      cout << "search" << endl;
+      //cout << "search" << endl;
 
       int value;
 
@@ -129,7 +129,7 @@ int main(){
 }
 
 void add(binaryTree * newTree, int toAdd){
-  if(newTree->data = -1){
+  if(newTree->data == -1){
     newTree->data = toAdd;
     return;
   }else {
@@ -200,10 +200,17 @@ binaryTree * deleteTree(binaryTree * newTree, int toDelete){
 }
 
 bool search(binaryTree * newTree, int numToSearchFor){
-  if(numToSearchFor == newTree->data){
+
+  if(newTree == NULL){
+    return false;
+  }if(numToSearchFor == newTree->data){
     return true;
-    exit(0);
   }else if(numToSearchFor < newTree->data){
+    return search(newTree->left, numToSearchFor);
+  }else{
+    return search(newTree->right, numToSearchFor);
+  }
+  /*
     if(!newTree -> left){
       
     }else {
@@ -219,5 +226,8 @@ bool search(binaryTree * newTree, int numToSearchFor){
     return false;
   }
 
-  return false;
+  return false;*/
 }
+
+
+//7 numbers: 50 30 70 20 40 60 80
