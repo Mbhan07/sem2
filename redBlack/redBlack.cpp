@@ -77,15 +77,53 @@ int main(){
   return 0;
 }
 
+//insert new node in RBT (initial BST insertion step only)
 node * insert(noot * & root, int & num){
+
   //create new node w/ num
   //set color to red
   //set left, set right, set parent to NULL
-
-
+  node * current = new node();
+  current -> data = num;
+  current -> color = 'R';
+  current -> left = NULL;
+  current -> right = NULL;
+  current -> parent = NULL;
+  
   //if root is NULL, set root to new node and return root
+  if(root == NULL){
+    root = current; //the root must be black  - handeled later in violations method
+    return root;
+  }else { //transverse BST recursively
 
-  //transverse BST recursively
+    //If the value is less than the current node's data and left child exists
+    if(num < root->data && root -> left){
+      node * temp = root -> left; ///traverse down left subtree
+      return insert(temp, num); //recursive call on the left child
+
+   //if the value is less and left child does not exist (insert here)
+    }else if(num < root -> data && !root -> left){
+      root -> left = current; //set as left child
+      current -> parent = root; //set parent pointer
+
+      return current;
+
+  //if the value is greater and right child exist
+    }if(num > root -> data && root -> right){
+      node * temp = root -> right; //traverse down the right subtree
+      return insert(temp, num); //recursive call on the right child
+
+  //if the value is greater and right child does not exist (insert here)
+    }else if(num > root -> data && !root -> right){
+      root -> right = current; //set as right child
+      current -> parent = root; //set parent pointer
+
+      return current;
+    }
+  }
+
+  //just a default return
+  return NULL;
   
 }
 void fixViolations(node * & root, node * & current){
@@ -104,12 +142,37 @@ void fixViolations(node * & root, node * & current){
 }
 
 void print(node * root, int space){
-  //if root is null, return
+  //if root is null, return and our base case!
+  if(root == NULL){
+    return;
+  }
+  //tree indented 5 spaces than previous level
 
+  int count = 5;
+  space += count;
+
+  print(root -> right, space);
+
+  cout << endl;
+
+  for(int i = count; i < space; i++){
+    cout << " ";
+  }
   //increase space and print
 
   //print indentation then print
-  
+
+
+  //display color to understand what we're looking at!
+
+  if(root -> color == 'R'){
+    cout << root -> data << " (R)" << endl;
+  }if(root -> color == 'B'){
+    cout << root -> data << " (B)" << endl;
+  }
+
+  //print recursive call
+  print(root -> left, space);
 }
 
 void rotateLeft(node * & x, node * & root){
