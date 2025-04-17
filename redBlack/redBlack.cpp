@@ -149,7 +149,9 @@ void fixViolations(node * & root, node * & current){
   node * uncle = NULL;
 
   //while current is not root AND current is red and parent is red
-  while((current != root) && (current-> color != 'B') && (current->parent->color == 'R')){
+  //while((current != root) && (current-> color != 'B') && (current->parent->color == 'R'))
+  while(current != root && current->parent->color == 'R'){
+
     cout << "Fixing violation at node: " << current -> data << endl;
 
     //set up the family tree relationships
