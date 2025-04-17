@@ -20,6 +20,11 @@ struct node {
 */
 
 //func prototypes go here:
+node * insert(node * & root, int & num);
+void fixViolations(node * & root, node * & current);
+void print(node * root, int space);
+void rotateLeft(node * & x, node * & root);
+void rotateRight(node * & x, node * & root);
 
 int main(){
   node * root = NULL;
@@ -43,14 +48,16 @@ int main(){
       for(int i = 0; i < numbers; i++){
 	cout << "Please enter a number: ";
 	cin >> num;
-
+	current = insert(root, num);
+	fixViolations(root, current);
+	print(root, space);
 	cout << endl;
-	
       }
     }else if(strcmp(input, "DELETE") == 0){
       cout << "will do later" << endl;
     }else if(strcmp(input, "PRINT") == 0){
       //call print func
+      print(root, space);
     }else if(strcmp(input, "FILE") == 0){
       char fileName[100];
       cout << "Please enter file name including the extension (.txt): " << endl;
@@ -62,10 +69,13 @@ int main(){
 
       while(file >> num){
 	//do something here
+	current = insert(root, num);
+	fixViolations(root, current);
       }
 
       file.close();
       //print
+      print(root, space);
 
       
     }else if(strcmp(input, "QUIT") == 0){
@@ -78,7 +88,7 @@ int main(){
 }
 
 //insert new node in RBT (initial BST insertion step only)
-node * insert(noot * & root, int & num){
+node * insert(node * & root, int & num){
 
   //create new node w/ num
   //set color to red
@@ -136,7 +146,7 @@ void fixViolations(node * & root, node * & current){
   node * uncle = NULL;
 
   //while current is not root AND current is red and parent is red
-  while((current != root) && (current-> color != 'B') && (current->parent->color == 'R')) 
+  while((current != root) && (current-> color != 'B') && (current->parent->color == 'R')){ 
 
     //set up the family tree relationships
     parent = current -> parent;
@@ -230,10 +240,72 @@ void print(node * root, int space){
   print(root -> left, space);
 }
 
+
+//https://en.wikipedia.org/wiki/Tree_rotation
+//https://www.programiz.com/dsa/red-black-tree
+//https://www.geeksforgeeks.org/insertion-in-red-black-tree/
+//https://www.youtube.com/watch?v=dCF_d-zc_bQ
+
+//both rotateLeft and rotateRight are very similar 
 void rotateLeft(node * & x, node * & root){
-  //
+  node * y = x -> right;
+  x -> right = y -> left;
+
+  //if y has a left subtree, x becomes parent of left subtree of y
+  if(y -> left) {
+    y->left->parent = x;
+  }
+
+  y -> parent = x->parent;
+
+  //if parent of x is null, make y as the root of the tree
+  if(x->parent == NULL){
+    root = y;
+  }
+
+  //else if x is the left child of p, make y as the left child of p
+  else if(x == x->parent->left){
+    x->parent->left = y;
+  }
+  else {
+    x->parent->right = y;
+  }
+  y->left = x;
+
+  //make y parent of x
+  //x's parent should point to y
+
+  x->parent = y;
+  
 }
 
 void rotateRight(node * & x, node * & root){
+  node * y = x->left;
+  x->left = y->right;
 
+  //if x has a right subtree, assign y as the parent of the right subtree of x
+
+  if(y->right){
+    y->right->parent = x;
+  }
+  y->parent = x->parent;
+
+  //if parent of y is NULL, make x as the root of the tree
+
+  if(x->parent == NULL){
+    root = y;
+  }
+  //else if y is the right child of parent p, make x as right child of p
+  else if(x == x->parent->right){
+    x->parent->right = y;
+  }
+  //else assignn x as left child of p
+  else{
+    x->parent->left = y;
+  }
+
+  y->right = x;
+  //make x as parent of y
+  x->parent = y;
+  
 }
