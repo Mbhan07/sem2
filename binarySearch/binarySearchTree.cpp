@@ -25,7 +25,7 @@ int main(){
   //make a new tree + set root node = -1 (indicates an empty tree)
   binaryTree * newTree = new binaryTree();
   newTree -> data = -1;
-
+  ///ejebebneebebeb
   while (true){
     char input[100];
 
