@@ -226,7 +226,8 @@ void fixViolations(node * & root, node * & current){
       }
     }
   }
-  cout << "Ensuring root " << root->data << " is black." << endl;
+  //
+  //cout << "Ensuring root " << root->data << " is black." << endl;
   //set root color to black
   root -> color = 'B';
 }
