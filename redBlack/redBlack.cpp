@@ -180,7 +180,7 @@ void fixViolations(node * & root, node * & current){
     
     //ELSE --> parent is right child of grandparent (parent case)
     else {
-      uncle = grandparent -> right; //uncle is on the left side
+      uncle = grandparent -> left; //uncle is on the left side
       //case1: uncle is red
       if((uncle != NULL) && (uncle -> color == 'R')){ // 
 	grandparent -> color = 'R'; //push red upwards
