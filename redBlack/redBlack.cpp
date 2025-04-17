@@ -71,6 +71,7 @@ int main(){
 	//do something here
 	current = insert(root, num);
 	fixViolations(root, current);
+	//root->color = 'B';
       }
 
       file.close();
@@ -148,7 +149,8 @@ void fixViolations(node * & root, node * & current){
   node * uncle = NULL;
 
   //while current is not root AND current is red and parent is red
-  while((current != root) && (current-> color != 'B') && (current->parent->color == 'R')){ 
+  while((current != root) && (current-> color != 'B') && (current->parent->color == 'R')){
+    cout << "Fixing violation at node: " << current -> data << endl;
 
     //set up the family tree relationships
     parent = current -> parent;
@@ -161,18 +163,27 @@ void fixViolations(node * & root, node * & current){
       //case 1: uncle is red
       //simply recolor
       if(uncle && uncle -> color == 'R'){
+	cout << "Case 1: Recoloring. Node: " << current->data << ", Parent: " << parent->data << ", Uncle: " << uncle->data << endl;
+
 	grandparent-> color = 'R'; //push red upwards
 	parent -> color = 'B'; //fix double red
 	uncle -> color = 'B'; //both children of grandparent become black
 	current = grandparent; //move up 
 
       }else { //case 2: uncle is black or null
+	cout << "Case 2 triggered (rotation). Parent: " << parent->data << ", Current: " << current->data << endl;
+	
 	if (current == parent -> right){ //current is right child --> need left rotation
+	  cout << "Case 2a: Left Rotation at Parent: " << parent->data << endl;
 	  rotateLeft(parent, root); //rotate parent to left
 	  current = parent; //move current up
 	  parent = current -> parent; //update parent
-	} //case 2b: current is now a left child
+	}
+
+	//case 2b: current is now a left child
 	//perform right rotation on grandparent and recolor
+	cout << "Case 2b: Right Rotation at Grandparent: " << grandparent->data << endl;
+
 	rotateRight(grandparent, root);
 	parent -> color = 'B'; // new parent becomes black 
 	grandparent -> color = 'R'; //old grandparent becomes red
@@ -182,7 +193,13 @@ void fixViolations(node * & root, node * & current){
     
     //ELSE --> parent is right child of grandparent (parent case)
     else {
+
       uncle = grandparent -> left; //uncle is on the left side
+      if (uncle == NULL){
+	cout << "Uncle is NULL for node: " << current->data << endl;
+      }else{
+	cout << "Uncle is " << uncle->data << " and is " << (uncle->color == 'R' ? "Red" : "Black") << endl;
+      }
       //case1: uncle is red
       if((uncle != NULL) && (uncle -> color == 'R')){ // 
 	grandparent -> color = 'R'; //push red upwards
@@ -191,11 +208,14 @@ void fixViolations(node * & root, node * & current){
 	current = grandparent; //move up to keep checking for violations
       }else { //case 2: uncle is black or null
 	if(current == parent -> left){ //subcase: current is left child, need right rotation to transform to case 2b
+
+	  cout << "Case 2a: Right Rotation at Parent: " << parent->data << endl;
 	  rotateRight(parent, root); //rotate parent to right
 	  current = parent;
 	  parent = current -> parent;
 	}
 	//case 2b: current is now a right child
+	cout << "Case 2b: Left Rotation at Grandparent: " << grandparent->data << endl;
 	rotateLeft(grandparent, root); //rotate grandparent left
 	parent -> color = 'B'; // new parent becomes black
 	grandparent -> color = 'R'; //old grandparent becomes red
@@ -204,6 +224,7 @@ void fixViolations(node * & root, node * & current){
       }
     }
   }
+  cout << "Ensuring root " << root->data << " is black." << endl;
   //set root color to black
   root -> color = 'B';
 }
