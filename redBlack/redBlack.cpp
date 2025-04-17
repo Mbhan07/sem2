@@ -76,3 +76,46 @@ int main(){
   
   return 0;
 }
+
+node * insert(noot * & root, int & num){
+  //create new node w/ num
+  //set color to red
+  //set left, set right, set parent to NULL
+
+
+  //if root is NULL, set root to new node and return root
+
+  //transverse BST recursively
+  
+}
+void fixViolations(node * & root, node * & current){
+  //while current is not root AND current is red and parent is red
+
+       //if parent is left child of grandparent
+
+          //case 1: uncle is red
+          //case 2: unclie is black or null
+
+      //ELSE
+         //case 1: uncle is red
+         //case 2: uncle is black or null
+
+  //set root color to black
+}
+
+void print(node * root, int space){
+  //if root is null, return
+
+  //increase space and print
+
+  //print indentation then print
+  
+}
+
+void rotateLeft(node * & x, node * & root){
+  //
+}
+
+void rotateRight(node * & x, node * & root){
+
+}
