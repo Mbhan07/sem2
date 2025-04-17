@@ -69,7 +69,7 @@ int main(){
     while (true){
       char secondInput[100];
       
-      cout << "How would you like to display this? Prefix (Pr), Postfix (Po), Infix (In), or NEW";
+      cout << "How would you like to display this? Prefix (Pr), Postfix (Po), Infix (In), QUIT, or NEW: ";
 
       cin.getline(secondInput, 100, '\n');
 
