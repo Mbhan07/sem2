@@ -67,16 +67,16 @@ int main(){
     //call shunting yard function
     //build the tree
     while (true){
-      char secondInput[42];
+      char secondInput[100];
       
-      cout << "How would you like to display this? Prefix (Pr), Postfix (Po), Infix (In), etc...";
+      cout << "How would you like to display this? Prefix (Pr), Postfix (Po), Infix (In), or NEW";
 
-      cin.getline(secondInput, 40, '\n');
+      cin.getline(secondInput, 100, '\n');
 
       if(strcmp(secondInput, "Pr") == 0){
 	cout << "prefix" << endl;
 	prefix(head);
-	break;
+	//break;
       }else if(strcmp(secondInput, "Po") == 0){
 	cout << "postfix"<< endl;
 	postfix(head);
@@ -86,7 +86,9 @@ int main(){
       }else if(strcmp(secondInput, "QUIT") == 0){
 	cout << "quit";
 	exit(0);
-      }else {
+      }else if(strcmp(secondInput, "NEW") == 0){
+	main();
+      }else{
 	cout << "Invalid input. Please enter Pr. Po, In, or QUIT. " << endl;
       }
 
@@ -159,7 +161,24 @@ void enqueue(Node *& head, char input){
 
 //dequeue
 void dequeue(Node *&head){
-  Node * current = head;
+  if(!head){
+    return;
+  }
+  Node * temp = head -> next;
+  delete head;
+  head = temp;
+
+  /*node * current = head;
+  if(current -> next == NULL){
+    head = NULL;
+    delete current;
+  }else if(current->next != NULL){
+    node * temp = current -> next;
+    head = NULL;
+    delete current;
+    head = temp;
+  } //maybe recoding will nh
+  /*Node * current = head;
   if(current -> next == NULL){
     head = NULL;
     delete current;
@@ -169,7 +188,7 @@ void dequeue(Node *&head){
     head = NULL;
     delete current;
     head = temp;
-  }
+    }*/
 }
 
 //precedence
@@ -209,7 +228,7 @@ void shuntingYard(Node * & head, char * output){
 	enqueue(head, peek(stackOperator) -> data);
 	pop(stackOperator);
       }
-      if(peek(stackOperator) && peek(stackOperator) -> data == 'C'){
+      if(peek(stackOperator) && peek(stackOperator) -> data == '('){
 	pop(stackOperator);
       }
     }
