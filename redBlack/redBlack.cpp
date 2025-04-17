@@ -108,8 +108,9 @@ node * insert(node * & root, int & num){
 
     //If the value is less than the current node's data and left child exists
     if(num < root->data && root -> left){
-      node * temp = root -> left; ///traverse down left subtree
-      return insert(temp, num); //recursive call on the left child
+      return insert(root->left, num);
+      //node * temp = root -> left; ///traverse down left subtree
+      //return insert(temp, num); //recursive call on the left child
 
    //if the value is less and left child does not exist (insert here)
     }else if(num < root -> data && !root -> left){
@@ -120,8 +121,9 @@ node * insert(node * & root, int & num){
 
   //if the value is greater and right child exist
     }if(num > root -> data && root -> right){
-      node * temp = root -> right; //traverse down the right subtree
-      return insert(temp, num); //recursive call on the right child
+      return insert(root->right, num);
+      //node * temp = root -> right; //traverse down the right subtree
+      //return insert(temp, num); //recursive call on the right child
 
   //if the value is greater and right child does not exist (insert here)
     }else if(num > root -> data && !root -> right){
