@@ -13,6 +13,7 @@ The purpose of this project is to implement the Shunting Yard algorithim, to con
 
 //gonna need a node struct
 
+//checking if we a r okay here in terms of git
 struct Node {
   
   char data;
