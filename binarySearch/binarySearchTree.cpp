@@ -2,6 +2,8 @@
 #include <cstring>
 #include <fstream>
 
+
+//making sure i have everything
 //doubly linked list struct to represent binary tree
 struct binaryTree{
   int data;
