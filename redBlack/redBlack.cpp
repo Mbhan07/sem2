@@ -126,19 +126,74 @@ node * insert(noot * & root, int & num){
   return NULL;
   
 }
+
+//fix violations of red-black tree properties after inserting a node
 void fixViolations(node * & root, node * & current){
+
+  //initialize helper pointers to navigate the tree structure
+  node * parent = NULL;
+  node * grandparent = NULL;
+  node * uncle = NULL;
+
   //while current is not root AND current is red and parent is red
+  while((current != root) && (current-> color != 'B') && (current->parent->color == 'R')) 
 
-       //if parent is left child of grandparent
+    //set up the family tree relationships
+    parent = current -> parent;
+    grandparent = current -> parent -> parent;
+    
+    //if parent is left child of grandparent
+    if(parent == grandparent -> left){
+      uncle = grandparent -> right; //uncle is right child of grandparent
 
-          //case 1: uncle is red
-          //case 2: unclie is black or null
+      //case 1: uncle is red
+      //simply recolor
+      if(uncle && uncle -> color == 'R'){
+	grandparent-> color = 'R'; //push red upwards
+	parent -> color = 'B'; //fix double red
+	uncle -> color = 'B'; //both children of grandparent become black
+	current = grandparent; //move up 
 
-      //ELSE
-         //case 1: uncle is red
-         //case 2: uncle is black or null
+      }else { //case 2: uncle is black or null
+	if (current == parent -> right){ //current is right child --> need left rotation
+	  rotateLeft(parent, root); //rotate parent to left
+	  current = parent; //move current up
+	  parent = current -> parent; //update parent
+	} //case 2b: current is now a left child
+	//perform right rotation on grandparent and recolor
+	rotateRight(grandparent, root);
+	parent -> color = 'B'; // new parent becomes black 
+	grandparent -> color = 'R'; //old grandparent becomes red
+	current = parent; //move current up the tree
+      }
+    }
+    
+    //ELSE --> parent is right child of grandparent (parent case)
+    else {
+      uncle = grandparent -> right; //uncle is on the left side
+      //case1: uncle is red
+      if((uncle != NULL) && (uncle -> color == 'R')){ // 
+	grandparent -> color = 'R'; //push red upwards
+	parent -> color = 'B'; // fix double red
+	uncle -> color = 'B'; //recolor uncle
+	current = grandparent; //move up to keep checking for violations
+      }else { //case 2: uncle is black or null
+	if(current == parent -> left){ //subcase: current is left child, need right rotation to transform to case 2b
+	  rotateRight(parent, root); //rotate parent to right
+	  current = parent;
+	  parent = current -> parent;
+	}
+	//case 2b: current is now a right child
+	rotateLeft(grandparent, root); //rotate grandparent left
+	parent -> color = 'B'; // new parent becomes black
+	grandparent -> color = 'R'; //old grandparent becomes red
+	current = parent; //move current up
 
+      }
+    }
+  }
   //set root color to black
+  root -> color = 'B';
 }
 
 void print(node * root, int space){
