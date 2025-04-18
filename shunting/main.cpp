@@ -61,6 +61,8 @@ int main(){
 	a++;
       }
     }
+
+    output[a] = '\0';
     /// now we need to do the boogie
     shuntingYard(head, output);
     treeBuilding(head);
@@ -76,19 +78,24 @@ int main(){
       if(strcmp(secondInput, "Pr") == 0){
 	cout << "prefix" << endl;
 	prefix(head);
+	cout << endl;
 	//break;
       }else if(strcmp(secondInput, "Po") == 0){
 	cout << "postfix"<< endl;
 	postfix(head);
+	cout << endl;
       }else if(strcmp(secondInput, "In") == 0){
 	cout << "infix" << endl;
 	infix(head);
+	cout << endl;
       }else if(strcmp(secondInput, "QUIT") == 0){
 	cout << "quit";
 	exit(0);
       }else if(strcmp(secondInput, "NEW") == 0){
+	cout << endl;
 	main();
       }else{
+	cout << endl;
 	cout << "Invalid input. Please enter Pr. Po, In, or QUIT. " << endl;
       }
 
@@ -205,9 +212,13 @@ int precedence(char operators){
 
 //shunt yard method
 void shuntingYard(Node * & head, char * output){
+
+  head = NULL;
+  Node * stackOperator = NULL;
+  
   cout << "Input Expression: " << output << endl;
   int length = strlen(output);
-  Node * stackOperator = NULL; //we're gonna need this later
+  
   for (int i = 0; i < length; i++){
     if(isdigit(output[i])){ //if digit
       enqueue(head, output[i]);
