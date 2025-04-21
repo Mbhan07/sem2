@@ -47,6 +47,13 @@ int main(){
   Node * head = NULL;
   while (true){
     char input[101];
+    cout << endl;
+    cout << "Please enter a fully parenthesized mathematical expression (space-separated tokens only).\n"
+     << "Note: You must use parentheses to enforce order of operations. For example:\n"
+     << "Instead of:     3 + 4 * 2 / (1 - 5) ^ 2 ^ 3\n"
+     << "Enter it as:    3 + ((4 * 2) / ((1 - 5) ^ (2 ^ 3)))\n";
+
+    cout << endl;
     cout << "Please enter an equation: " << endl;
     cin.getline(input, 100, '\n');
     int length = strlen(input);
@@ -70,7 +77,8 @@ int main(){
     //build the tree
     while (true){
       char secondInput[100];
-      
+
+ 
       cout << "How would you like to display this? Prefix (Pr), Postfix (Po), Infix (In), QUIT, or NEW: ";
 
       cin.getline(secondInput, 100, '\n');
@@ -220,11 +228,18 @@ void shuntingYard(Node * & head, char * output){
   int length = strlen(output);
   
   for (int i = 0; i < length; i++){
+    cout << "\n--- Processing token: " << output[i] << " ---" << endl;
+
+    
     if(isdigit(output[i])){ //if digit
       enqueue(head, output[i]);
+
+      cout << "Added digit to output queue: " << output[i] << endl;
     }
     //open parantehsis
     else if(output[i] == '(') {
+      
+      
       Node * temp = new Node();
       temp -> data = '(';
       temp -> next = NULL;
@@ -232,34 +247,72 @@ void shuntingYard(Node * & head, char * output){
       temp -> left = NULL;
 
       push(stackOperator, temp);
+
+      cout << "Pushed '(' to operator stack" << endl;
       
     } //closed parentheses
     else if(output[i] == ')'){
+      cout << "Handling ')' - popping until '(' found" << endl;
       while(peek(stackOperator) && peek(stackOperator) -> data != '('){
+	 cout << "Popping " << peek(stackOperator)->data << " from operator stack to output queue" << endl;
 	enqueue(head, peek(stackOperator) -> data);
+	
 	pop(stackOperator);
       }
       if(peek(stackOperator) && peek(stackOperator) -> data == '('){
+        cout << "Popped '('" << endl;
 	pop(stackOperator);
       }
     }
     else if(!isdigit(output[i]) && output[i] != '(' && output[i] != ')'){
+      cout << "Handling operator: " << output[i] << endl;
+      
       while(peek(stackOperator) && precedence(peek(stackOperator) -> data) >= precedence(output[i]) && output[i] != '^'){
+	 cout << "Popping " << peek(stackOperator)->data << " from operator stack to output queue (due to precedence)" << endl;
 	enqueue(head, peek(stackOperator) -> data);
 	pop(stackOperator);
       }
+      
       Node * temp = new Node();
       temp -> data = output[i];
       temp -> next = NULL;
       temp -> right = NULL;
       temp -> left = NULL;
       push(stackOperator, temp);
+      cout << "Pushed operator to stack: " << output[i] << endl;
     }
+    // Debug current operator stack (top only)
+    if (peek(stackOperator)) {
+      cout << "Top of operator stack: " << peek(stackOperator)->data << endl;
+    } else {
+      cout << "Operator stack is empty." << endl;
+    }
+
+    // Debug current output queue
+    cout << "Current output queue: ";
+    Node* temp = head;
+    while (temp != NULL) {
+      cout << temp->data << " ";
+      temp = temp->next;
+    }
+    cout << endl;
   }
+
+  //idk whatever this is but chatGPT reccomended it for debugging when i asked it what else to print out LOLOL
+  cout << "\n--- Draining remaining operators to output queue ---" << endl;
   while(stackOperator != NULL){
+    cout << "Moving " << peek(stackOperator)->data << " from stack to output queue" << endl;
     enqueue(head, peek(stackOperator)-> data);
     pop(stackOperator);
   }
+
+  cout << "\nFinal Postfix Queue: ";
+  Node* temp = head;
+  while (temp != NULL) {
+    cout << temp->data << " ";
+    temp = temp->next;
+  }
+  cout << endl;
 }
 
 //buiding the tree method
@@ -279,7 +332,15 @@ void treeBuilding(Node * & head){
       
       Node * nodeOperator = new Node();
       nodeOperator -> data = current -> data;
+
       Node * rightOperand = new Node();
+
+      /* TEST CASES
+	 2 + 3
+	 2 + 3 * 4
+
+      */
+
 
       rightOperand -> data = peek(stackOperand) -> data;
       rightOperand -> right = peek(stackOperand) -> right;
@@ -297,7 +358,8 @@ void treeBuilding(Node * & head){
 
       nodeOperator-> left = leftOperand; 
 
-
+      pop(stackOperand);
+      
       //push(stackOperand, nodeOperand);
       push(stackOperand, nodeOperator);
     }
