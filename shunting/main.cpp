@@ -84,20 +84,20 @@ int main(){
       cin.getline(secondInput, 100, '\n');
 
       if(strcmp(secondInput, "Pr") == 0){
-	cout << "prefix" << endl;
+	//cout << "prefix" << endl;
 	prefix(head);
 	cout << endl;
 	//break;
       }else if(strcmp(secondInput, "Po") == 0){
-	cout << "postfix"<< endl;
+	//cout << "postfix"<< endl;
 	postfix(head);
 	cout << endl;
       }else if(strcmp(secondInput, "In") == 0){
-	cout << "infix" << endl;
+	//cout << "infix" << endl;
 	infix(head);
 	cout << endl;
       }else if(strcmp(secondInput, "QUIT") == 0){
-	cout << "quit";
+	//cout << "quit";
 	exit(0);
       }else if(strcmp(secondInput, "NEW") == 0){
 	cout << endl;
@@ -112,7 +112,7 @@ int main(){
   return 0;
 }
 
-//add node to stack
+//add node to stack AKA end of singly linked list 
 void push(Node *&head, Node * thingToAdd){
   if (head == NULL) { // simple traversal here
     head = thingToAdd;
@@ -126,6 +126,7 @@ void push(Node *&head, Node * thingToAdd){
   }
 }
 
+//return the last (top node) in the stack
 Node * peek(Node * head){
   Node * current = head;
   //traversion through the list
@@ -136,7 +137,7 @@ Node * peek(Node * head){
   return current;
 }
 
-//pop
+//remove the last (top) node in the stack
 void pop(Node *& head){
   Node * current = head;
 
@@ -156,7 +157,7 @@ void pop(Node *& head){
 
 }
 
-//enqueue
+//enqueue - add a node to the end of the que
 
 void enqueue(Node *& head, char input){
   Node * newNode = new Node();
@@ -174,7 +175,7 @@ void enqueue(Node *& head, char input){
   }
 }
 
-//dequeue
+//dequeue - remove a node from the front of the que
 void dequeue(Node *&head){
   if(!head){
     return;
@@ -206,19 +207,20 @@ void dequeue(Node *&head){
     }*/
 }
 
-//precedence
+//precedence --> return precedence value of an operator
 int precedence(char operators){
   if (operators == '+' || operators == '-'){
     return 1;
   }else if(operators == '*' || operators == '/'){
     return 2;
   }else if(operators == '^'){
-    return 3;
+    return 3; // Highest precedence (right-associative)
   }
-  return 0;
+  return 0; // Not a known operator
 }
 
-//shunt yard method
+//shunt yard method - implements shunting yard algorithim to convert infix to postfix
+//uses an operator stack and outputs to a queue implemented as a linked list
 void shuntingYard(Node * & head, char * output){
 
   head = NULL;
@@ -226,17 +228,19 @@ void shuntingYard(Node * & head, char * output){
   
   cout << "Input Expression: " << output << endl;
   int length = strlen(output);
-  
+
+  //traverse through each character
   for (int i = 0; i < length; i++){
     cout << "\n--- Processing token: " << output[i] << " ---" << endl;
 
-    
+     // If the character is a digit, enqueue it to the output queue
     if(isdigit(output[i])){ //if digit
       enqueue(head, output[i]);
 
       cout << "Added digit to output queue: " << output[i] << endl;
     }
     //open parantehsis
+     // If it's an opening parenthesis, push it onto the stack
     else if(output[i] == '(') {
       
       
@@ -251,6 +255,7 @@ void shuntingYard(Node * & head, char * output){
       cout << "Pushed '(' to operator stack" << endl;
       
     } //closed parentheses
+    // If it's a closing parenthesis, pop from the stack until '(' is found
     else if(output[i] == ')'){
       cout << "Handling ')' - popping until '(' found" << endl;
       while(peek(stackOperator) && peek(stackOperator) -> data != '('){
@@ -264,10 +269,11 @@ void shuntingYard(Node * & head, char * output){
 	pop(stackOperator);
       }
     }
+    // If the character is an operator
     else if(!isdigit(output[i]) && output[i] != '(' && output[i] != ')'){
       cout << "Handling operator: " << output[i] << endl;
-      
-      while(peek(stackOperator) && precedence(peek(stackOperator) -> data) >= precedence(output[i]) && output[i] != '^'){
+    // Pop operators from stack to queue based on precedence
+    while(peek(stackOperator) && precedence(peek(stackOperator) -> data) >= precedence(output[i]) && output[i] != '^'){
 	 cout << "Popping " << peek(stackOperator)->data << " from operator stack to output queue (due to precedence)" << endl;
 	enqueue(head, peek(stackOperator) -> data);
 	pop(stackOperator);
@@ -297,7 +303,7 @@ void shuntingYard(Node * & head, char * output){
     }
     cout << endl;
   }
-
+   // Pop any remaining operators from the stack to the output queue
   //idk whatever this is but chatGPT reccomended it for debugging when i asked it what else to print out LOLOL
   cout << "\n--- Draining remaining operators to output queue ---" << endl;
   while(stackOperator != NULL){
@@ -306,6 +312,7 @@ void shuntingYard(Node * & head, char * output){
     pop(stackOperator);
   }
 
+  // Final debug print of output queue
   cout << "\nFinal Postfix Queue: ";
   Node* temp = head;
   while (temp != NULL) {
@@ -315,7 +322,7 @@ void shuntingYard(Node * & head, char * output){
   cout << endl;
 }
 
-//buiding the tree method
+//buiding the tree method from postifx output
 void treeBuilding(Node * & head){
   Node * current = head;
 
@@ -329,6 +336,8 @@ void treeBuilding(Node * & head){
       nodeOperand -> data = current -> data;
       push(stackOperand, nodeOperand); // pushoperand onto operand stack
     }else {
+
+      // Operator → pop two operands, build subtree, push result
       
       Node * nodeOperator = new Node();
       nodeOperator -> data = current -> data;
@@ -368,10 +377,10 @@ void treeBuilding(Node * & head){
     current = head;
   }
 
-  head = peek(stackOperand);
+  head = peek(stackOperand); // Root of the expression tree
   
 }
-//infix func
+//infix func and traversal (Left → Node → Right)
 void infix(Node * head) {
   if (head != NULL){
     infix(head -> left);
@@ -381,6 +390,7 @@ void infix(Node * head) {
 
 }
 //postfix func
+// Postfix traversal (Left → Right → Node)
 void postfix(Node * head){
   if(head != NULL){
     postfix(head -> left);
@@ -390,6 +400,7 @@ void postfix(Node * head){
 }
 
 //prefix func
+// Prefix traversal (Node → Left → Right)
 void prefix(Node * head){
   if(head != NULL){
     cout << head -> data << " ";
