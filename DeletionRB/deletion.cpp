@@ -16,6 +16,9 @@ struct node {
 
 /* this is red black tree DELETION by Mahika Bhan. Due May 16th, 2025
 
+   https://medium.com/analytics-vidhya/deletion-in-red-black-rb-tree-92301e1474ea
+
+   https://www.geeksforgeeks.org/deletion-in-red-black-tree/
    Mahika Bhan
 */
 
@@ -25,6 +28,7 @@ void fixViolations(node * & root, node * & current);
 void print(node * root, int space);
 void rotateLeft(node * & x, node * & root);
 void rotateRight(node * & x, node * & root);
+void deletetion(node * & root, int num);
 
 int main(){
   node * root = NULL;
@@ -54,7 +58,10 @@ int main(){
 	cout << endl;
       }
     }else if(strcmp(input, "DELETE") == 0){
-      cout << "will do later" << endl;
+      cout << "What number do you want to delete?" << endl;
+      int numInput;
+      cin >> numInput;
+      delete
     }else if(strcmp(input, "PRINT") == 0){
       //call print func
       print(root, space);
@@ -86,6 +93,116 @@ int main(){
   }
   
   return 0;
+}
+
+
+//delete a node based on value inputted from user
+
+void deletion(node * & root, int num){
+
+  //let's get fired up by "targeting" a node
+
+  node * target = root;
+
+  //while we have not found the "target node" with the correct data value
+
+  while(target && target -> data != value){
+
+    // if value we're looking for is less than the current node's data
+    if(value < target -> data){
+
+      //move to the left child
+      
+      target = target -> left;
+
+      
+    }else { //else move to the right child 
+      target = target -> right;
+    }
+ }
+    //if number not in the tree, node not found
+
+  if(!target){
+     cout << "Node not found " << endl;
+     return;
+  }
+
+  //y will be used to track the node actually removed or moved
+  node * y = target;
+
+  //store color of y, since deletion depends on whether its red or black
+
+  char yOGcolor = y -> color;
+
+  //x will eventually replace y in the tree
+  node * x = NULL;
+
+  //keep track of x parent, just in case
+
+  node * xParent = NULL;
+
+
+  /*according to gfg, "If the node has two children, find its successor and copy successor's value
+This is standard two-child deletion logic from a binary search tree (BST),
+with color tracking added for red-black tree fix-up later
+(Finding the predecessor would be symmetric: maximum(target->left))" */
+
+  
+  if(target -> left && target -> right){
+    y = minimum(target->right); //find the in order successor (smallest node in right subtree)
+    yOGcolor = y -> color; //save original color
+    target -> data = y -> data; //replace target data with successor data
+    target = y; //now treat successor node as the node to actually delete
+    
+  }
+
+  //the following logic is from gfg
+
+  //replace target with its only child (or null if it has no children)
+
+  x = (target -> left) ? target -> left: target -> right;
+  xParent = target -> parent;
+
+  // if x exists, update parent pointer to bypass the target node
+  if (x){
+    x -> parent = target -> parent;
+
+  //if target node is the root, update the root pointer
+  }if (!target = parent){
+    root = x;
+  }else if(target == target -> parent -> left){ //else, update the appropiate child pointer of the parent
+    target -> parent -> left = x;
+  }else {
+    target -> parent -> right = x;
+  }
+
+  // if the original node being deleted was black, we may have violated red-black properties
+  if(yOGcolor == 'B'){
+
+    //continue fixing up as long as x is not the root and is either null or black
+    while (x != root && (!x || x -> color = 'B')){
+      if (x == xParent -> left){
+	node * sibling = xParent -> right; //get sibling of x
+
+	//case 1: x sibling is red
+	//recolor and perform a left rotation to transform into a case where sibling is black
+	if (sibling && sibling -> color == 'R'){
+	  sibling -> color = 'B'; //recolor sibling to black
+	  xParent -> color = 'R'; //recolor parent to red
+
+	  rotateLeft(xParent, root); // rotate to make sibling black and move up
+
+	  sibling = xParent -> right; // update sibling after rotation
+	}
+
+      }
+    }
+
+  }
+  
+  
+  
+  
 }
 
 //insert new node in RBT (initial BST insertion step only)
