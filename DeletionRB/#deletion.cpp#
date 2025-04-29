@@ -170,8 +170,10 @@ with color tracking added for red-black tree fix-up later
   //if target node is the root, update the root pointer
   }if (!target = parent){
     root = x;
-  }else if(){ //else, update the appropiate child pointer of the parent
-
+  }else if(target == target -> parent -> left){ //else, update the appropiate child pointer of the parent
+    target -> parent -> left = x;
+  }else {
+    target -> parent -> right = x;
   }
 
   
