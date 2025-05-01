@@ -195,12 +195,37 @@ with color tracking added for red-black tree fix-up later
 	  sibling = xParent -> right; // update sibling after rotation
 	}
 
+	if ((!sibling -> left || sibling -> left -> color  == 'B') && (!sibling -> right || sib -> right -> color  == 'B')){
+	  if (sibling){
+	    sibling -> color = 'R';
+	  }
+
+	  x = xParent;
+	  xParent = x -> parent;
+	}else {
+	  if (!sibling -> right || sibling -> right -> color == 'B'){
+	    if (sibling -> left) sibling -> left -> color = 'B';
+	    sibling -> color = 'R';
+	    rotateRight(sibling, root);
+	    sibling = xParent -> right;
+	  }
+	  sibling -> color = xParent -> color;
+	  xParent -> color = 'B';
+	  if(sibling -> right) sibling -> right -> color = 'B';
+	  rotateLeft(xParent, root);
+	  break;
+
+	}
       }
     }
 
+    if (x) {
+      x -> color = 'B';
+    }
+
   }
-  
-  
+
+  delete target;
   
   
 }
