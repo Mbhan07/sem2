@@ -195,20 +195,27 @@ with color tracking added for red-black tree fix-up later
 	  sibling = xParent -> right; // update sibling after rotation
 	}
 
+	//case 2: sibling is black, and both of sibling's children are black
+	//recolor sibling to red and move the problem up to the parent
 	if ((!sibling -> left || sibling -> left -> color  == 'B') && (!sibling -> right || sib -> right -> color  == 'B')){
 	  if (sibling){
 	    sibling -> color = 'R';
 	  }
-
 	  x = xParent;
 	  xParent = x -> parent;
+	//case 3 or 4: at least one red child exists on the sibling
+	  
 	}else {
+	  //transform into case 4 by right rotating the sibling
 	  if (!sibling -> right || sibling -> right -> color == 'B'){
 	    if (sibling -> left) sibling -> left -> color = 'B';
 	    sibling -> color = 'R';
 	    rotateRight(sibling, root);
-	    sibling = xParent -> right;
+	    sibling = xParent -> right; //update sibling after rotatoin
 	  }
+
+	  //case 4: sibling is black, and its right child is red
+	  //recolor and left rotate parent to fix double black
 	  sibling -> color = xParent -> color;
 	  xParent -> color = 'B';
 	  if(sibling -> right) sibling -> right -> color = 'B';
@@ -219,12 +226,14 @@ with color tracking added for red-black tree fix-up later
       }
     }
 
+    //once fix up is complete, make sure x (if not null) is black)
     if (x) {
       x -> color = 'B';
     }
 
   }
 
+  //finally, delete the original node
   delete target;
   
   
