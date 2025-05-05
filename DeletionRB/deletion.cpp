@@ -30,6 +30,9 @@ void rotateLeft(node * & x, node * & root);
 void rotateRight(node * & x, node * & root);
 void deletion(node * & root, int num);
 node * minimum(node * root);
+bool search(node * root, int numToSearch);
+
+
 int main(){
   node * root = NULL;
   int space = 0;
@@ -96,9 +99,29 @@ int main(){
 }
 
 node * minimum(node * root){
+  while (root -> left != NULL){
+    root = root -> left;
+  }
 
+  return left;
 
 }
+
+bool * search(node * root, int numToSearch){
+  if (root == NULL){
+    return false;
+  }
+  if(numToSearch == root -> data){
+    return true;
+  }
+  if(numToSearch < root -> data){
+    return search(root -> left, numToSearch);
+  }else {
+    return search(root -> right, numToSearch);
+  }
+
+}
+
 
 //delete a node based on value inputted from user
 
