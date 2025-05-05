@@ -28,8 +28,8 @@ void fixViolations(node * & root, node * & current);
 void print(node * root, int space);
 void rotateLeft(node * & x, node * & root);
 void rotateRight(node * & x, node * & root);
-void deletetion(node * & root, int num);
-
+void deletion(node * & root, int num);
+node * minimum(node * root);
 int main(){
   node * root = NULL;
   int space = 0;
@@ -61,7 +61,7 @@ int main(){
       cout << "What number do you want to delete?" << endl;
       int numInput;
       cin >> numInput;
-      delete
+      deletion(root, numInput);
     }else if(strcmp(input, "PRINT") == 0){
       //call print func
       print(root, space);
@@ -95,6 +95,10 @@ int main(){
   return 0;
 }
 
+node * minimum(node * root){
+
+
+}
 
 //delete a node based on value inputted from user
 
@@ -106,10 +110,10 @@ void deletion(node * & root, int num){
 
   //while we have not found the "target node" with the correct data value
 
-  while(target && target -> data != value){
+  while(target && target -> data != num){
 
     // if value we're looking for is less than the current node's data
-    if(value < target -> data){
+    if(num < target -> data){
 
       //move to the left child
       
