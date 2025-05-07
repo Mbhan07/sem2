@@ -68,6 +68,15 @@ int main(){
     }else if(strcmp(input, "PRINT") == 0){
       //call print func
       print(root, space);
+    }else if(strcmp(input, "SEARCH") == 0){
+      cout << "What number would you like to search for? " << endl;
+      cin >> num;
+      if(search(root, num)){
+	cout << "Found it: " << num << endl;
+      }else{
+	cout << "Not Present: " << num << endl;
+      }
+    
     }else if(strcmp(input, "FILE") == 0){
       char fileName[100];
       cout << "Please enter file name including the extension (.txt): " << endl;
@@ -103,11 +112,11 @@ node * minimum(node * root){
     root = root -> left;
   }
 
-  return left;
+  return root;
 
 }
 
-bool * search(node * root, int numToSearch){
+bool search(node * root, int numToSearch){
   if (root == NULL){
     return false;
   }
