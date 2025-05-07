@@ -43,7 +43,7 @@ int main(){
   while(true){
     char input[100];
 
-    cout << "What would you like to do? add MANUALLY, from a FILE, PRINT, DELETE, or QUIT?" << endl;
+    cout << "What would you like to do? add MANUALLY, from a FILE, PRINT, DELETE, SEARCH, or QUIT?" << endl;
 
     cin >> input;
 
@@ -204,7 +204,7 @@ with color tracking added for red-black tree fix-up later
     x -> parent = target -> parent;
 
   //if target node is the root, update the root pointer
-  }if (!target = parent){
+  }if (!target-> parent){
     root = x;
   }else if(target == target -> parent -> left){ //else, update the appropiate child pointer of the parent
     target -> parent -> left = x;
@@ -216,7 +216,7 @@ with color tracking added for red-black tree fix-up later
   if(yOGcolor == 'B'){
 
     //continue fixing up as long as x is not the root and is either null or black
-    while (x != root && (!x || x -> color = 'B')){
+    while (x != root && (!x || x -> color == 'B')){
       if (x == xParent -> left){
 	node * sibling = xParent -> right; //get sibling of x
 
@@ -233,7 +233,7 @@ with color tracking added for red-black tree fix-up later
 
 	//case 2: sibling is black, and both of sibling's children are black
 	//recolor sibling to red and move the problem up to the parent
-	if ((!sibling -> left || sibling -> left -> color  == 'B') && (!sibling -> right || sib -> right -> color  == 'B')){
+	if ((!sibling -> left || sibling -> left -> color  == 'B') && (!sibling -> right || sibling -> right -> color  == 'B')){
 	  if (sibling){
 	    sibling -> color = 'R';
 	  }
@@ -256,6 +256,40 @@ with color tracking added for red-black tree fix-up later
 	  xParent -> color = 'B';
 	  if(sibling -> right) sibling -> right -> color = 'B';
 	  rotateLeft(xParent, root);
+	  break;
+
+	}
+      }else { //basically the same but for the left side
+	node * sibling = xParent -> left;
+
+	//case 1: red sibling
+	if(sibling && sibling -> color == 'R'){
+	  sibling -> color = 'B';
+	  xParent -> color = 'R';
+	  rotateRight(xParent, root);
+	  sibling = xParent -> left;
+	}
+
+	//case 2: black sibling with two black children
+	if((!sibling -> left || sibling -> left -> color == 'B') &&
+	   (!sibling -> right || sibling -> right -> color == 'B')){
+	  if (sibling) sibling -> color = 'R';
+	  x = xParent;
+	  xParent = xParent -> parent;
+	}else {
+	  if(!sibling -> left || sibling -> left -> color == 'B'){
+	    if (sibling -> right) sibling -> right -> color = 'B';
+	    sibling -> color = 'R';
+	    rotateLeft(sibling, root);
+	    sibling = xParent -> left;
+	  }
+
+	  //case 4: black sibling left child red
+	  sibling -> color = xParent -> color;
+	  xParent -> color = 'B';
+	  if(sibling -> left) sibling -> left -> color = 'B';
+	  rotateRight(xParent, root);
+	  x = root;
 	  break;
 
 	}
