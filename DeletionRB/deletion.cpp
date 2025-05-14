@@ -107,25 +107,43 @@ int main(){
   return 0;
 }
 
+// finds the node with the minimum value in a given subtree
+
+
 node * minimum(node * root){
+
+  //keep going left until we hit the leftmost node
+
   while (root -> left != NULL){
     root = root -> left;
   }
 
+  //return node with smallest value in subtree
   return root;
 
 }
-
+//helps to search for a given integer within the RBT
 bool search(node * root, int numToSearch){
+
+  //base case: we've reached a null subtree --> value not found
+
   if (root == NULL){
     return false;
   }
+
+  //value matches the current node
+  
   if(numToSearch == root -> data){
     return true;
   }
+
+  //recursive call on left subtree if value is smaller
+  
   if(numToSearch < root -> data){
     return search(root -> left, numToSearch);
   }else {
+
+    //recursive call on right subtree is value is smaller
     return search(root -> right, numToSearch);
   }
 
@@ -133,6 +151,7 @@ bool search(node * root, int numToSearch){
 
 
 //delete a node based on value inputted from user
+//another helpful source used: https://www.programiz.com/dsa/red-black-tree
 
 void deletion(node * & root, int num){
 
@@ -141,7 +160,7 @@ void deletion(node * & root, int num){
   node * target = root;
 
   //while we have not found the "target node" with the correct data value
-
+  //locate node to delete via BST logic
   while(target && target -> data != num){
 
     // if value we're looking for is less than the current node's data
