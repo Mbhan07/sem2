@@ -35,6 +35,31 @@ void printMatrix(int & vertexNum, int adjacentMatrix[20][20], char vertices[20])
   }
 }
 
+void deleteEdge(char starting, char ending, int weight, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]){
+  int i = getIndex(starting, vertexNum, adjacentMatrix, vertices);
+  int j = getIndex(ending, vertexNum, adjacentMatrix, vertices);
+
+  if ( i == -1 || j == -1){
+    cout << "Either one or both vertices do not exist. " << endl;
+    cout << endl;
+
+    return;
+  }
+  adjacentMatrix[i][j] = 0;
+}
+
+void addEdge(char starting, char ending, int weight, int &vertexNum,  int adjacentMatrix[20][20], char vertices[20]){
+  int i = getIndex(starting,vertexNum,adjacentMatrix,vertices);
+  int j = getIndex(ending,vertexNum,adjacentMatrix,vertices);
+
+  if (i == -1 || j == -1){
+    cout << "Either one or both verticies do not exist. " << endl;
+    cout << endl;
+    return;
+  }
+  adjacentMatrix[i][j] = weight;
+}
+
 
 void addVertex(char label, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]){
   //in case there are more than 20 vertexes
