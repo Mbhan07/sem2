@@ -13,33 +13,61 @@
 
 using namespace std;
 
-//Function prototypes
+//Functions then main
+
+void printMatrix(int & vertexNum, int adjacentMatrix[20][20], char vertices[20]){
+  cout << "Here is the table: " << endl;
+
+  //here's the print loop we all know and love wooooooohooo
 
 
+  for (int i = 0; i < vertexNum; i++){
+    cout << "\t" << vertices[i] << "\t";
+  }
+  cout << "\n"
+
+  for(int i = 0; i < vertexNum; i++){
+    cout << vertices[i] << " ";
+    for(int j = 0; j < vertexNum; j++){
+      cout << "\t" << adjacentMatrix[i][j] << "\t";
+    }
+    cout << "\n"
+  }
+}
 
 
-int main(){
+void addVertex(char label, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]){
+  //in case there are more than 20 vertexes
+  if (vertexNum >= 20){
+    cout << "You can't add any more vertices" << endl;
+    cout << endl;
+    return;
+  }
 
-  while (true){
-    char input[100];
+  //if vertex is not equal to 1
 
-    cout << "What would you like to do? ADD a vertex or edge, REMOVE a vertex or edge, or find the SHORTEST path? ";
+  if(getIndex(label, vertexNum, adjacentMatrix, vertices) != 1){
+    cout << "Vertex already exists." << endl;
+    cout << endl;
+    return;
+  }
 
-    cin >> input;
+  vertices[vertexNum++] = label;
 
-    if(strcmp(input, "ADD") == 0){
-      char toAdd[10];
+}
 
-      cout << "Would you like to add a VERTEX or EDGE" << endl;
-	       
 
-    }else if(strcmp(input, "REMOVE") == 0){
-
-    }else if(strcmp(input, "SHORTEST") == 0){
-
-    }else {
-      cout << "Not a valid input. Please enter ADD, REMOVE, or SHORTEST (uppercase and no typos). " << endl;
+int getIndex(char index, int & vertexNum, int adjacentMattrix[20][20], char vertices[20]){
+  for(int i = 0; i < vertexNum; i++){
+    if(vertices[i] == index){
+      return i;
     }
   }
-  return 0;
+
+  return -1;
+
+}
+int main(){
+
+ return 0;
 }
