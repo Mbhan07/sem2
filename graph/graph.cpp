@@ -13,7 +13,47 @@
 
 using namespace std;
 
-//Functions then main
+//Function prototypess then main
+
+void printMatrix(int & vertexNum, int adjacentMatrix[20][20], char vertices[20]);
+void deleteEdge(char starting, char ending, int weight, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]);
+void addEdge(char starting, char ending, int weight, int &vertexNum,  int adjacentMatrix[20][20], char vertices[20]);
+void addVertex(char label, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]);
+int getIndex(char index, int & vertexNum, int adjacentMattrix[20][20], char vertices[20]);
+
+
+
+int main(){
+  int vertexNum = 0;
+
+  int adjacentMatrix[20][20] = {0};
+  char vertices[20];
+
+  addVertex('A', vertexNum, adjacentMatrix, vertices);
+  addVertex('B', vertexNum, adjacentMatrix, vertices);
+  addVertex('C', vertexNum, adjacentMatrix, vertices);
+  addVertex('D', vertexNum, adjacentMatrix, vertices);
+
+  addEdge('A', 'B', 1, vertexNum, adjacentMatrix, vertices);
+  addEdge('A' 'C',4, vertexNum, adjacentMatrix, vertices);
+  addEdge('B', 'C', 2, vertexNum, adjacentMatrix, vertices);
+  addEdge('B', 'D', 5, vertexNum, adjacentMatrix, vertices);
+  addEdge('C', 'D' 1, vertexNum, adjacentMatrix, vertices);
+
+  printMatrix(vertexNum, adjacentMatrix, vertices);
+
+  removeEdge('B', 'C', 2, vertexNum, adjacentMatrix, vertices);
+
+  printMatrix(vertexNum, adjacentMatrix, vertices);
+  
+ 
+  return 0;
+}
+
+
+
+
+
 
 void printMatrix(int & vertexNum, int adjacentMatrix[20][20], char vertices[20]){
   cout << "Here is the table: " << endl;
@@ -24,14 +64,14 @@ void printMatrix(int & vertexNum, int adjacentMatrix[20][20], char vertices[20])
   for (int i = 0; i < vertexNum; i++){
     cout << "\t" << vertices[i] << "\t";
   }
-  cout << "\n"
+  cout << "\n";
 
   for(int i = 0; i < vertexNum; i++){
     cout << vertices[i] << " ";
     for(int j = 0; j < vertexNum; j++){
       cout << "\t" << adjacentMatrix[i][j] << "\t";
     }
-    cout << "\n"
+    cout << "\n";
   }
 }
 
@@ -71,7 +111,7 @@ void addVertex(char label, int & vertexNum, int adjacentMatrix[20][20], char ver
 
   //if vertex is not equal to 1
 
-  if(getIndex(label, vertexNum, adjacentMatrix, vertices) != 1){
+  if(getIndex(label, vertexNum, adjacentMatrix, vertices) != -1){
     cout << "Vertex already exists." << endl;
     cout << endl;
     return;
@@ -92,7 +132,4 @@ int getIndex(char index, int & vertexNum, int adjacentMattrix[20][20], char vert
   return -1;
 
 }
-int main(){
 
- return 0;
-}
