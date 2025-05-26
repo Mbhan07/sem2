@@ -35,14 +35,14 @@ int main(){
   addVertex('D', vertexNum, adjacentMatrix, vertices);
 
   addEdge('A', 'B', 1, vertexNum, adjacentMatrix, vertices);
-  addEdge('A' 'C',4, vertexNum, adjacentMatrix, vertices);
+  addEdge('A', 'C', 4, vertexNum, adjacentMatrix, vertices);
   addEdge('B', 'C', 2, vertexNum, adjacentMatrix, vertices);
   addEdge('B', 'D', 5, vertexNum, adjacentMatrix, vertices);
-  addEdge('C', 'D' 1, vertexNum, adjacentMatrix, vertices);
+  addEdge('C', 'D', 1, vertexNum, adjacentMatrix, vertices);
 
   printMatrix(vertexNum, adjacentMatrix, vertices);
 
-  removeEdge('B', 'C', 2, vertexNum, adjacentMatrix, vertices);
+  deleteEdge('B', 'C', 2, vertexNum, adjacentMatrix, vertices);
 
   printMatrix(vertexNum, adjacentMatrix, vertices);
   
