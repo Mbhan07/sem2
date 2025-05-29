@@ -29,6 +29,38 @@ int main(){
   int adjacentMatrix[20][20] = {0};
   char vertices[20];
 
+  while(true){
+
+    char input[20];
+    cout << "What would you like to do? ADDEDGE, ADDVERTEX, REMOVEVERTEX, REMOVEEDGE, PRINTGRAPH, FINDSHORTEST, or QUIT." << endl;
+    cin >> input;
+
+    if(strcmp(input, "ADDVERTEX") == 0){
+      char label[16];
+      cout << "Vertex label? ";
+      cin >> label;
+      addVertex(label, vertexNum, adjacentMatrix, vertices);
+      
+    }else if(strcmp(input, "ADDEDGE") == 0){
+
+    }else if(strcmp(input, "REMOVEVERTEX") == 0){
+
+    }else if(strcmp(input, "REMOVEEDGE") == 0){
+
+    }else if(strcmp(input, "PRINTGRAPH") == 0){
+
+    }else if(strcmp(input, "FINDSHORTEST") == 0){
+
+    }else if(strcmp(input, "QUIT") == 0){
+
+    }else{
+      cout << "Invalid input. Please follow all syntax and pick: ADDEDGE, ADDVERTEX, REMOVEVERTEX, REMOVEEDGE, PRINTGRAPH, FINDSHORTEST, or QUIT." << endl;
+    }
+
+  
+
+  }
+  
   addVertex('A', vertexNum, adjacentMatrix, vertices);
   addVertex('B', vertexNum, adjacentMatrix, vertices);
   addVertex('C', vertexNum, adjacentMatrix, vertices);
