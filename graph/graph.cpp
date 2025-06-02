@@ -17,12 +17,12 @@ using namespace std;
 //Function prototypess then main
 
 void printMatrix(int & vertexNum, int adjacentMatrix[20][20], char vertices[20]);
-void deleteEdge(char starting, char ending, int weight, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]);
+void deleteEdge(char starting, char ending, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]);
 void addEdge(char starting, char ending, int weight, int &vertexNum,  int adjacentMatrix[20][20], char vertices[20]);
 void addVertex(char label, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]);
 int getIndex(char index, int & vertexNum, int adjacentMattrix[20][20], char vertices[20]);
 void shortestPath(char starting, char ending, int vertexNum, int adjacentMatrix[20][20], char vertices[20]);
-
+void deleteVertex(char label, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]);
 
 int main(){
   int vertexNum = 0;
@@ -40,7 +40,7 @@ int main(){
 
     if(strcmp(input, "ADDVERTEX") == 0){
 
-      char label[16];
+      char label;
 
       cout << "Vertex label? ";
 
@@ -87,7 +87,7 @@ int main(){
       cout << "End vertex? ";
       cin >> end;
 
-      removeEdge(start, end, vertexNum, adjacentMatrix, vertices);
+      deleteEdge(start, end, vertexNum, adjacentMatrix, vertices);
 
       printMatrix(vertexNum, adjacentMatrix, vertices);
 
@@ -145,10 +145,10 @@ void shortestPath(char starting, char ending, int vertexNum, int adjacentMatrix[
   int endIndex = -1;
 
   for(int i = 0; i < vertexNum; i++){
-    if(vertices[i]) == start){
+    if(vertices[i] == starting){
        startIndex = i;
     }
-    if(vertices[i] == end){
+    if(vertices[i] == ending){
       endIndex = i;
     }
 
@@ -161,18 +161,18 @@ void shortestPath(char starting, char ending, int vertexNum, int adjacentMatrix[
  }
 
  for(int i = 0; i < vertexNum; i++){
-   dist[i] = biggie;
+   distance[i] = biggie;
  }
 
-dist[startIndex];
+distance[startIndex] = 0;
 
 for(int count = 0; count < vertexNum -1; count++){
   int u = -1;
   int minimumDistance = biggie;
 
   for(int i = 0; i < vertexNum; i++){
-    if(!visited[i] && dist[i] < minimumDistance) {
-      minimumDistance = dist[i];
+    if(!visited[i] && distance[i] < minimumDistance) {
+      minimumDistance = distance[i];
       u = i;
     }
   }
@@ -183,17 +183,17 @@ for(int count = 0; count < vertexNum -1; count++){
   visited[u] = true;
   for (int v = 0; v < vertexNum; v++){
     if(adjacentMatrix[u][v] > 0 && !visited[v]){
-      if(dist[u] + adjacentMatrix[u][v] < dist[v]){
-	dist[v] = dist[u] + adjacentMatrix[u][v];
+      if(distance[u] + adjacentMatrix[u][v] < distance[v]){
+	distance[v] = distance[u] + adjacentMatrix[u][v];
       }
     }
   }
 
 }
-if(dist[endIndex] == biggie){
-  cout << "No path from " << start << " to " << end << endl;
+if(distance[endIndex] == biggie){
+  cout << "No path from " << starting << " to " << ending << endl;
  }else {
-  cout << "Shortest distance from " << start << " to " << end << " is " << dist[endIndex] << endl;
+  cout << "Shortest distance from " << starting << " to " << ending << " is " << distance[endIndex] << endl;
  }
 
 }
@@ -273,5 +273,31 @@ int getIndex(char index, int & vertexNum, int adjacentMattrix[20][20], char vert
 
   return -1;
 
+}
+
+void deleteVertex(char label, int & vertexNum, int adjacentMatrix[20][20], char vertices[20]){
+  int index = getIndex(label, vertexNum, adjacentMatrix, vertices);
+
+  if(index == -1){
+    cout << "Vertex not found. " << endl;
+    return;
+  }
+
+  for(int i = index; i < vertexNum - 1; i++){
+    vertices[i] = vertices[i + 1];
+  }
+
+  for(int i = index; i < vertexNum - 1; i++){
+    for(int j = 0; j < vertexNum; j++){
+      adjacentMatrix[i][j] = adjacentMatrix[i + 1][j];
+    }
+  }
+  for(int i = 0; i < vertexNum - 1; i++){
+    for(int j = index; j < vertexNum - 1; j++){
+      adjacentMatrix[i][j] = adjacentMatrix[i][j + 1];
+    }
+  }
+
+  vertexNum--;
 }
 
